@@ -1,0 +1,22 @@
+{
+  "name": "bottel/project",
+  "description": "Refactored Bottel ecommerce and customization platform",
+  "type": "project",
+  "require": {
+    "phpmailer/phpmailer": "^6.9",
+    "firebase/php-jwt": "^6.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bottel\\": "app/"
+    },
+    "files": [
+      "includes/functions.php"
+    ]
+  }
+}
+
+
+
+
+
