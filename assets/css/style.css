@@ -1,39 +1,81 @@
+/* === Responsive Product Grid === */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin: 40px;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 3vw, 1.5rem);
+  margin: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2.5rem);
+  width: calc(100% - clamp(2rem, 8vw, 5rem));
 }
+
+@media (min-width: 480px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(1.25rem, 3vw, 1.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* === Responsive Product Card === */
 .product-card {
   background: #111;
   color: #fff;
-  border-radius: 15px;
+  border-radius: clamp(12px, 2vw, 15px);
   overflow: hidden;
   box-shadow: 0 0 10px rgba(255,255,255,0.1);
   transition: all 0.3s ease;
+  width: 100%;
 }
+
 .product-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 0 20px rgba(255,255,255,0.3);
 }
+
 .product-card img {
   width: 100%;
-  height: 250px;
+  height: clamp(200px, 40vw, 250px);
   object-fit: cover;
 }
+
 .product-card h3 {
-  margin: 15px;
-  font-size: 1.2rem;
+  margin: clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
 }
+
 .product-card .btn {
   display: block;
   text-align: center;
-  padding: 10px;
+  padding: clamp(0.75rem, 2vw, 0.875rem);
   background: #007bff;
   color: #fff;
   text-decoration: none;
-  border-radius: 0 0 15px 15px;
+  border-radius: 0 0 clamp(12px, 2vw, 15px) clamp(12px, 2vw, 15px);
+  font-size: clamp(0.875rem, 2vw, 1rem);
 }
+
 .product-card .btn:hover {
   background: #0056b3;
+}
+
+/* === Mobile-specific adjustments === */
+@media (max-width: 480px) {
+  .product-card img {
+    height: 200px;
+  }
+  
+  .product-card h3 {
+    font-size: 1rem;
+    margin: 0.75rem;
+  }
 }

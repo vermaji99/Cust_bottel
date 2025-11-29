@@ -151,6 +151,7 @@ $csrf = csrf_token();
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="../assets/css/navbar.css">
+<link rel="stylesheet" href="../assets/css/responsive.css">
 <meta name="app-base" content="<?= esc(app_config('app_url')); ?>">
 <style>
 *, *::before, *::after {
@@ -619,12 +620,140 @@ h2 .text-highlight {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
 }
+/* --- FOOTER --- */
 footer {
     background: #080808;
+    padding: clamp(3rem, 8vw, 4.5rem) 0 clamp(1.5rem, 4vw, 2rem);
+    border-top: 1px solid #1a1a1a;
+    margin-top: clamp(3rem, 6vw, 4rem);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 2.5rem);
+    margin-bottom: clamp(2.5rem, 6vw, 3rem);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 clamp(1rem, 4vw, 1.25rem);
+}
+
+@media (min-width: 480px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: clamp(2rem, 4vw, 2.5rem);
+    }
+}
+
+.footer-col h4 {
+    color: #fff;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    margin-bottom: clamp(1rem, 2.5vw, 1.25rem);
+    position: relative;
+    display: inline-block;
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 30px;
+    height: 2px;
+    background: #00bcd4;
+}
+
+.footer-col p {
+    color: #888;
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
+    margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
+    line-height: 1.6;
+}
+
+.footer-col a {
+    color: #888;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-col a:hover {
+    color: #00bcd4;
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    margin-top: clamp(0.75rem, 2vw, 1rem);
+}
+
+.social-links a {
+    width: clamp(32px, 6vw, 36px);
+    height: clamp(32px, 6vw, 36px);
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #fff;
+    transition: all 0.3s ease;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+.social-links a:hover {
+    background: #00bcd4;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 188, 212, 0.3);
+}
+
+.copyright {
     text-align: center;
-    padding: 30px;
-    color: #666;
-    margin-top: 60px;
+    padding-top: clamp(1.5rem, 4vw, 2rem);
+    border-top: 1px solid #1a1a1a;
+    color: #555;
+    font-size: clamp(0.8rem, 2vw, 0.85rem);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: clamp(1rem, 4vw, 1.25rem);
+    padding-right: clamp(1rem, 4vw, 1.25rem);
+}
+
+/* Modal grid responsive - only for very small screens */
+@media (max-width: 480px) {
+    .modal-order-info {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+    
+    .container {
+        padding: 80px 15px 40px;
+    }
+    
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    
+    .order-card {
+        padding: 20px;
+    }
+    
+    .order-header strong {
+        font-size: 1.1rem;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
 }
 </style>
 </head>
@@ -841,7 +970,7 @@ include __DIR__ . '/includes/navbar.php';
                         <button class="close-modal" onclick="closeOrderDetails(<?= $orderId; ?>)">&times;</button>
                     </div>
                     
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-bottom:30px;padding:20px;background:rgba(0,0,0,0.2);border-radius:12px;border:1px solid rgba(0,188,212,0.1);">
+                    <div class="modal-order-info" style="display:grid;grid-template-columns:1fr 1fr;gap:25px;margin-bottom:30px;padding:20px;background:rgba(0,0,0,0.2);border-radius:12px;border:1px solid rgba(0,188,212,0.1);">
                         <div>
                             <strong style="color:#a0a0a0;font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;">Order Date</strong>
                             <p style="margin:8px 0 0 0;color:#fff;font-size:1rem;font-weight:500;"><?= date('d M Y, h:i A', strtotime($order['created_at'])); ?></p>
@@ -1020,9 +1149,9 @@ include __DIR__ . '/includes/navbar.php';
         <div class="footer-col">
             <h4>Follow Us</h4>
             <div class="social-links">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
     </div>

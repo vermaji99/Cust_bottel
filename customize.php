@@ -30,6 +30,8 @@ $customizerConfig = [
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@400;700&family=Cinzel:wght@400;700&family=Great+Vibes&family=Bebas+Neue&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/navbar.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
 
 <style>
 :root{
@@ -41,14 +43,15 @@ $customizerConfig = [
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Montserrat,system-ui,Arial;background:var(--bg);color:#fff;-webkit-font-smoothing:antialiased}
-.container{max-width:1200px;margin:20px auto;padding:18px}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.header .title{font-weight:700;color:var(--accent);font-size:1.1rem}
-.main{display:flex;gap:20px}
-.panel{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
-.left{flex:1}
-.right{width:380px;flex-shrink:0}
-.canvas-wrap{width:360px;height:760px;margin:0 auto;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#060606,#0d0d0d);display:flex;align-items:center;justify-content:center;position:relative}
+.container{max-width:1200px;margin:clamp(1rem,3vw,1.25rem) auto;padding:clamp(0.875rem,2vw,1.125rem)}
+.header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:clamp(0.5rem,2vw,0.75rem);margin-bottom:clamp(0.75rem,2vw,1rem)}
+.header .title{font-weight:700;color:var(--accent);font-size:clamp(0.95rem,2.5vw,1.1rem)}
+.main{display:flex;flex-direction:column;gap:clamp(1rem,3vw,1.25rem)}
+.panel{background:var(--card);padding:clamp(1rem,2.5vw,1.25rem);border-radius:clamp(10px,2vw,12px);box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+.left{flex:1;width:100%}
+.right{width:100%;flex-shrink:0}
+.canvas-wrap{width:100%;max-width:360px;height:auto;aspect-ratio:360/760;margin:0 auto;border-radius:clamp(10px,2vw,12px);overflow:hidden;background:linear-gradient(180deg,#060606,#0d0d0d);display:flex;align-items:center;justify-content:center;position:relative}
+@media(min-width:768px){.main{flex-direction:row}.right{width:380px}.canvas-wrap{width:360px;height:760px}}
 .controls h3{color:var(--accent);margin:0 0 10px}
 .row{margin-bottom:12px}
 label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
@@ -72,8 +75,13 @@ input[type="text"], select, input[type="number"], input[type="color"]{
 .icon-btn{background:#111;padding:8px;border-radius:8px;border:1px solid #222;color:#fff;cursor:pointer}
 .footer-note{font-size:12px;color:#9aa;margin-top:8px;text-align:center}
 
-/* small responsive */
-@media(max-width:980px){.main{flex-direction:column}.right{width:100%}}
+/* Additional responsive adjustments */
+@media(max-width:480px){
+  .header{flex-direction:column;align-items:flex-start}
+  .header>div{width:100%;display:flex;flex-wrap:wrap;gap:0.5rem}
+  .btn{width:100%;margin:0.25rem 0}
+  .canvas-wrap{max-width:100%}
+}
 .preview-overlay{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none}
 
 /* NEW ACCORDION CSS */
@@ -1202,6 +1210,7 @@ document.querySelectorAll('.accordion-header').forEach(header => {
 
 </script>
 <script src="assets/js/customize.js"></script>
+<script src="assets/js/navbar.js" defer></script>
 <script src="assets/js/app.js" defer></script>
 </body>
 </html>

@@ -37,6 +37,7 @@ if (!function_exists('app_config')) {
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -80,24 +81,24 @@ if (!function_exists('app_config')) {
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: clamp(2rem, 5vw, 2.5rem) clamp(1rem, 3vw, 1.25rem);
         }
         
         /* --- Header Styling --- */
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: clamp(2rem, 5vw, 2.5rem);
             animation: fadeInUp 0.8s ease-out;
         }
         
         .header h1 {
             font-family: 'Poppins', sans-serif;
-            font-size: 2.4rem;
+            font-size: clamp(1.75rem, 5vw, 2.4rem);
             font-weight: 700;
             background: linear-gradient(90deg, #00bcd4, #007bff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
+            margin-bottom: clamp(0.75rem, 2vw, 1rem);
             letter-spacing: 0.5px;
         }
         
@@ -109,10 +110,16 @@ if (!function_exists('app_config')) {
         
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.9rem;
+                font-size: clamp(1.5rem, 4vw, 1.9rem);
             }
             .header p {
-                font-size: 0.95rem;
+                font-size: clamp(0.875rem, 2vw, 0.95rem);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: clamp(1.25rem, 5vw, 1.75rem);
             }
         }
         
@@ -166,14 +173,20 @@ if (!function_exists('app_config')) {
         @media (max-width: 1200px) {
             .main-content {
                 grid-template-columns: 1fr 380px;
-                gap: 25px;
+                gap: clamp(1.25rem, 3vw, 1.75rem);
             }
         }
 
         @media (max-width: 992px) {
             .main-content {
                 grid-template-columns: 1fr;
-                gap: 25px;
+                gap: clamp(1.5rem, 4vw, 2rem);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                gap: clamp(1.25rem, 3vw, 1.5rem);
             }
         }
         
@@ -212,15 +225,22 @@ if (!function_exists('app_config')) {
         /* Responsive height adjustment for 3D view */
         @media (max-width: 992px) {
             #bottle3d-container {
-                min-height: 500px;
-                max-height: 550px;
+                min-height: clamp(450px, 60vw, 500px);
+                max-height: clamp(500px, 65vw, 550px);
             }
         }
         
         @media (max-width: 768px) {
             #bottle3d-container {
-                min-height: 400px;
-                max-height: 450px;
+                min-height: clamp(350px, 50vw, 400px);
+                max-height: clamp(400px, 55vw, 450px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #bottle3d-container {
+                min-height: clamp(300px, 45vw, 350px);
+                max-height: clamp(350px, 50vw, 400px);
             }
         }
         
@@ -247,7 +267,13 @@ if (!function_exists('app_config')) {
         
         @media (max-width: 768px) {
             .info-card {
-                padding: 22px;
+                padding: clamp(1.25rem, 3vw, 1.5rem);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .info-card {
+                padding: clamp(1rem, 2.5vw, 1.25rem);
             }
         }
         

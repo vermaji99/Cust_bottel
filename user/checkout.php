@@ -847,6 +847,7 @@ $csrf = csrf_token();
         }
         </style>
     <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body>
 

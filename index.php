@@ -17,12 +17,50 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/navbar.css"> 
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"> 
 
     <style>
+    /* Critical CSS - Load immediately for responsiveness */
+    * {
+        box-sizing: border-box;
+    }
+    
+    html {
+        font-size: 16px;
+        /* Prevent scrollbar width changes */
+        overflow-y: scroll;
+        scrollbar-gutter: stable;
+    }
+    
+    body {
+        font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #0B0C10;
+        color: #f5f5f5;
+        line-height: 1.6;
+        overflow-x: hidden;
+        /* Prevent layout shifts */
+        min-height: 100vh;
+        /* Force immediate rendering */
+        will-change: auto;
+        /* Prevent horizontal scroll */
+        width: 100%;
+        max-width: 100vw;
+        position: relative;
+    }
+    
+    /* Ensure responsive styles apply immediately */
+    @media (max-width: 768px) {
+        body {
+            font-size: 16px;
+        }
+    }
+    
     /* Material Symbols Icon Font */
     .icon {
         font-family: 'Material Symbols Outlined';
@@ -38,21 +76,7 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
         direction: ltr;
         -webkit-font-feature-settings: 'liga';
         -webkit-font-smoothing: antialiased;
-    }
-    
-    /* === Base === */
-    * {
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: 'Space Grotesk', 'Inter', sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #0B0C10;
-        color: #f5f5f5;
-        line-height: 1.6;
-        overflow-x: hidden;
+        font-display: swap;
     }
     
     a { 
@@ -75,9 +99,56 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
 
     /* Navbar styles moved to assets/css/navbar.css */
     
-    /* Body padding to account for fixed navbar */
+    /* Critical Navbar Positioning - Prevent Layout Shift */
+    /* NOTE: Navbar styles are in assets/css/navbar.css - Don't override here */
+    header#main-header.header-futuristic {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        will-change: transform;
+        box-sizing: border-box !important;
+        z-index: 1000 !important; /* Ensure header is below menu (menu z-index: 99999) */
+    }
+    
+    /* Ensure mobile menu is not blocked by header */
+    @media (max-width: 767px) {
+        .nav-futuristic.nav-open,
+        .nav-futuristic.active {
+            z-index: 99999 !important;
+        }
+    }
+    
+    /* Body padding to account for fixed navbar - applied immediately */
     body {
         padding-top: 0;
+    }
+    
+    /* Critical responsive styles - load immediately */
+    @media (max-width: 1440px) {
+        html { font-size: 16px; }
+    }
+    
+    @media (max-width: 1024px) {
+        html { font-size: 15px; }
+    }
+    
+    @media (max-width: 768px) {
+        html { font-size: 14px; }
+    }
+    
+    @media (max-width: 480px) {
+        html { font-size: 14px; }
+    }
+    
+    @media (max-width: 320px) {
+        html { font-size: 13px; }
     }
 
     /* === Hero Slideshow === */
@@ -173,6 +244,14 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
         animation: fadeInUp 0.8s ease-out 0.2s both;
     }
     
+    @media (max-width: 1024px) {
+        .hero {
+            height: 75vh;
+            min-height: 600px;
+            max-height: 800px;
+        }
+    }
+    
     @media (max-width: 768px) {
         .hero {
             height: 70vh;
@@ -188,7 +267,7 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
         .hero-content {
             align-items: flex-start;
             text-align: left;
-            padding: 60px 5% 40px;
+            padding: clamp(40px, 8vw, 60px) clamp(4%, 5vw, 5%) clamp(30px, 6vw, 40px);
         }
         
         .hero-content-wrapper {
@@ -200,13 +279,13 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
         }
         
         .hero-content .subtitle {
-            font-size: 0.8rem;
+            font-size: clamp(0.75rem, 2vw, 0.9rem);
         }
         
         .hero-content p {
             text-align: left;
             max-width: 100%;
-            font-size: 0.9rem;
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
         }
     }
     
@@ -214,10 +293,26 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
         .hero {
             height: 65vh;
             min-height: 450px;
+            max-height: 600px;
         }
         
         .hero-content {
-            padding: 50px 4% 30px;
+            padding: clamp(30px, 6vw, 50px) clamp(3%, 4vw, 4%) clamp(20px, 4vw, 30px);
+        }
+        
+        .hero-content h1 {
+            font-size: clamp(1.75rem, 8vw, 2.5rem);
+        }
+    }
+    
+    @media (max-width: 320px) {
+        .hero {
+            height: 60vh;
+            min-height: 400px;
+        }
+        
+        .hero-content {
+            padding: 30px 3% 20px;
         }
     }
     
@@ -327,7 +422,7 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
 
     /* === Sections === */
     section { 
-        padding: 70px 5%;
+        padding: clamp(3rem, 8vw, 4.5rem) clamp(3%, 5vw, 5%);
         position: relative;
     }
     
@@ -342,27 +437,41 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
     }
     
     section h2 {
-        font-size: clamp(2rem, 5vw, 2.8rem);
+        font-size: clamp(1.75rem, 5vw, 2.8rem);
         font-weight: 700;
         text-align: center;
-        margin-bottom: 45px;
+        margin-bottom: clamp(2rem, 5vw, 3rem);
         color: #fff;
         letter-spacing: -0.5px;
+        padding: 0 clamp(1rem, 3vw, 2rem);
     }
     
     .why {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
+        grid-template-columns: 1fr;
+        gap: clamp(1.5rem, 4vw, 2rem);
         max-width: 1200px;
         margin: 0 auto;
+    }
+    
+    @media (min-width: 480px) {
+        .why {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .why {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: clamp(1.75rem, 4vw, 2rem);
+        }
     }
     
     .why .card {
         background: rgba(20, 20, 20, 0.6);
         backdrop-filter: blur(10px);
-        padding: 40px 30px;
-        border-radius: 20px;
+        padding: clamp(2rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 2rem);
+        border-radius: clamp(15px, 3vw, 20px);
         text-align: center;
         border: 1px solid rgba(0, 188, 212, 0.15);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -393,22 +502,22 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
     }
     
     .why .card i { 
-        font-size: 2.5rem; 
+        font-size: clamp(2rem, 5vw, 2.5rem); 
         color: #00bcd4; 
-        margin-bottom: 20px;
+        margin-bottom: clamp(1rem, 3vw, 1.25rem);
         display: block;
     }
     
     .why .card h3 {
-        font-size: 1.25rem;
+        font-size: clamp(1.1rem, 3vw, 1.25rem);
         font-weight: 600;
-        margin-bottom: 12px;
+        margin-bottom: clamp(0.75rem, 2vw, 1rem);
         color: #fff;
     }
     
     .why .card p {
         color: #b0b0b0;
-        font-size: 0.95rem;
+        font-size: clamp(0.875rem, 2vw, 0.95rem);
         line-height: 1.6;
         margin: 0;
     }
@@ -503,30 +612,52 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
         }
     }
     
+    @media (max-width: 1024px) {
+        .products-carousel-container {
+            padding: 0 clamp(3%, 4vw, 4%);
+        }
+        
+        .product-card {
+            flex: 0 0 calc(33.333% - 16px);
+            min-width: 260px;
+        }
+    }
+    
     @media (max-width: 768px) {
         .products-carousel-container {
-            padding: 0 4%;
+            padding: 0 clamp(2%, 3vw, 4%);
         }
         
         .product-card {
             flex: 0 0 calc(50% - 12px);
-            min-width: 240px;
+            min-width: clamp(220px, 45vw, 240px);
         }
         
         .products-carousel-wrapper {
-            padding: 15px 0;
+            padding: clamp(12px, 2vw, 15px) 0;
         }
     }
     
     @media (max-width: 480px) {
+        .products-carousel-container {
+            padding: 0 clamp(1.5%, 2vw, 3%);
+        }
+        
         .product-card {
             flex: 0 0 85%;
-            min-width: 280px;
+            min-width: clamp(260px, 80vw, 280px);
         }
         
         .products-carousel-wrapper::before,
         .products-carousel-wrapper::after {
-            width: 30px;
+            width: clamp(20px, 5vw, 30px);
+        }
+    }
+    
+    @media (max-width: 320px) {
+        .product-card {
+            flex: 0 0 90%;
+            min-width: 250px;
         }
     }
     
@@ -1247,6 +1378,30 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
 $currentPage = 'home';
 include __DIR__ . '/includes/navbar.php';
 ?>
+<script>
+// Critical: Fix navbar positioning immediately to prevent layout shift
+// NOTE: This only sets header position, doesn't interfere with mobile menu
+(function() {
+    'use strict';
+    const header = document.getElementById('main-header');
+    if (header) {
+        // Force immediate positioning - but don't interfere with menu
+        header.style.position = 'fixed';
+        header.style.top = '0';
+        header.style.left = '0';
+        header.style.right = '0';
+        header.style.width = '100%';
+        header.style.maxWidth = '100vw';
+        header.style.boxSizing = 'border-box';
+        header.style.transform = 'translateZ(0)';
+        header.style.zIndex = '1000';
+        // CRITICAL: Don't use overflow: hidden as it blocks menu clicks and visibility
+        // header.style.overflow = 'hidden';
+    }
+    
+})();
+</script>
+
 
 <section class="hero">
     <?php
@@ -1550,13 +1705,101 @@ include __DIR__ . '/includes/navbar.php';
 <script src="assets/js/navbar.js" defer></script>
 
 <script>
-// Initialize AOS (Animate On Scroll) with enhanced settings
+// Critical: Prevent navbar layout shift on page load
+(function() {
+    'use strict';
+    
+    function fixNavbarPosition() {
+        const header = document.getElementById('main-header');
+        if (!header) return;
+        
+        // Check if mobile menu is open - don't interfere if it is
+        const nav = document.querySelector('.nav-futuristic');
+        const isMenuOpen = nav && nav.classList.contains('nav-open');
+        
+        // Only fix header positioning if menu is NOT open
+        // This prevents interference with mobile menu functionality
+        if (!isMenuOpen) {
+            header.style.position = 'fixed';
+            header.style.top = '0';
+            header.style.left = '0';
+            header.style.right = '0';
+            header.style.width = '100%';
+            header.style.maxWidth = '100vw';
+            header.style.boxSizing = 'border-box';
+            header.style.transform = 'translateZ(0)';
+            header.style.zIndex = '1000';
+            // CRITICAL: Don't set overflow: hidden as it blocks menu clicks
+            // header.style.overflow = 'hidden';
+        }
+    }
+    
+    // Fix immediately
+    fixNavbarPosition();
+    
+    // Fix on DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixNavbarPosition);
+    } else {
+        fixNavbarPosition();
+    }
+    
+    // Fix on window load
+    window.addEventListener('load', fixNavbarPosition);
+    
+    // Fix on resize (to handle orientation changes)
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(fixNavbarPosition, 100);
+    });
+})();
+
+// Initialize AOS immediately but with optimized settings for faster rendering
+(function() {
+    'use strict';
+    
+    // Initialize AOS as soon as possible
+    if (typeof AOS !== 'undefined') {
 AOS.init({
-    duration: 800,
+            duration: 600,
     once: true,
-    offset: 100,
+            offset: 50,
     easing: 'ease-out-cubic',
-});
+            disable: false,
+            startEvent: 'DOMContentLoaded',
+            initClassName: false,
+            animatedClassName: 'aos-animate',
+            useClassNames: false,
+            disableMutationObserver: false,
+            debounceDelay: 50,
+            throttleDelay: 99,
+        });
+    } else {
+        // If AOS not loaded yet, wait for it
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 600,
+                    once: true,
+                    offset: 50,
+                    easing: 'ease-out-cubic',
+                });
+            }
+        });
+    }
+    
+    // Force immediate layout calculation for responsiveness
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger reflow to apply responsive styles immediately
+            void document.body.offsetHeight;
+        });
+    } else {
+        // Already loaded, trigger immediately
+        void document.body.offsetHeight;
+    }
+})();
 
 // Add futuristic cursor trail effect
 let particles = [];

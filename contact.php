@@ -17,8 +17,8 @@ $currentPage = 'contact';
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
   <link rel="stylesheet" href="assets/css/navbar.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
   
   <style>
     /* --- RESET & BASICS --- */
@@ -45,12 +45,12 @@ $currentPage = 'contact';
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 clamp(1rem, 4vw, 1.25rem);
       width: 100%;
     }
 
     .section-padding {
-      padding: 100px 0;
+      padding: clamp(3rem, 8vw, 6.25rem) 0;
     }
 
     /* --- TYPOGRAPHY UTILITIES --- */
@@ -73,17 +73,17 @@ $currentPage = 'contact';
     }
 
     .section-title {
-      font-size: 2.5rem;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
       font-weight: 700;
       color: #fff;
-      margin-bottom: 25px;
+      margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
       line-height: 1.2;
     }
 
     .section-desc {
       color: #a0a0a0;
-      font-size: 1.05rem;
-      margin-bottom: 20px;
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      margin-bottom: clamp(1rem, 2.5vw, 1.25rem);
       font-weight: 300;
     }
 
@@ -110,8 +110,8 @@ $currentPage = 'contact';
     /* --- HERO SECTION --- */
     .hero {
       position: relative;
-      height: 50vh;
-      min-height: 400px;
+      height: clamp(40vh, 50vw, 50vh);
+      min-height: clamp(300px, 60vw, 400px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -136,9 +136,9 @@ $currentPage = 'contact';
     }
 
     .hero h1 {
-      font-size: 3.5rem;
+      font-size: clamp(2rem, 8vw, 3.5rem);
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
       text-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
@@ -168,9 +168,16 @@ $currentPage = 'contact';
 
     .contact-card-content {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
+      grid-template-columns: 1fr;
+      gap: clamp(1.25rem, 3vw, 1.75rem);
       align-items: start;
+    }
+    
+    @media (min-width: 768px) {
+      .contact-card-content {
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(1.5rem, 3vw, 1.75rem);
+      }
     }
 
     .contact-map-wrapper {
@@ -368,13 +375,11 @@ $currentPage = 'contact';
 
     /* --- RESPONSIVE --- */
     @media (max-width: 992px) {
-      .contact-card-content { 
-        grid-template-columns: 1fr; 
-        gap: 30px; 
+      .hero h1 { 
+        font-size: clamp(1.75rem, 6vw, 2.5rem); 
       }
-      .hero h1 { font-size: 2.5rem; }
       .contact-map-wrapper {
-        min-height: 200px;
+        min-height: clamp(180px, 40vw, 200px);
       }
       .contact-details {
         padding-left: 0;
@@ -382,17 +387,31 @@ $currentPage = 'contact';
     }
 
     @media (max-width: 768px) {
-      .section-padding { padding: 60px 0; }
-      .section-title { font-size: 2rem; }
+      .section-padding { 
+        padding: clamp(2.5rem, 6vw, 3.75rem) 0; 
+      }
+      .section-title { 
+        font-size: clamp(1.5rem, 4vw, 2rem); 
+      }
       .contact-card,
       .contact-form {
-        padding: 30px 20px;
+        padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 3vw, 1.5rem);
       }
       .contact-card {
-        margin-bottom: 40px;
+        margin-bottom: clamp(2rem, 5vw, 2.5rem);
       }
       .contact-map-wrapper {
-        min-height: 180px;
+        min-height: clamp(160px, 35vw, 180px);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .contact-card,
+      .contact-form {
+        padding: 1.5rem 1rem;
+      }
+      .contact-map-wrapper {
+        min-height: 150px;
       }
     }
   </style>

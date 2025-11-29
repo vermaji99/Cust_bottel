@@ -130,6 +130,7 @@ $orderDate = $order['created_at'] ?? date('Y-m-d H:i:s');
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
@@ -499,5 +500,7 @@ include __DIR__ . '/includes/navbar.php';
     </div>
 </footer>
 
+<script src="../assets/js/navbar.js" defer></script>
+<script src="../assets/js/app.js" defer></script>
 </body>
 </html>

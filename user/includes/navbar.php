@@ -39,12 +39,27 @@ function isActive($page, $currentPage) {
 <header id="main-header" class="header-futuristic">
     <div class="logo-futuristic" onclick="window.location.href='../index.php'">BTL</div>
     <nav class="nav-futuristic">
-        <a href="../index.php" class="nav-link-futuristic <?= isActive('home', $currentPage) ?>">Home</a>
-        <a href="../category.php" class="nav-link-futuristic <?= isActive('shop', $currentPage) ?>">Shop</a>
-        <a href="../about.php" class="nav-link-futuristic <?= isActive('about', $currentPage) ?>">About</a>
-        <a href="../contact.php" class="nav-link-futuristic <?= isActive('contact', $currentPage) ?>">Contact</a>
+        <a href="../index.php" class="nav-link-futuristic <?= isActive('home', $currentPage) ?>" title="Home">
+            <i class="fas fa-home"></i>
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="../category.php" class="nav-link-futuristic <?= isActive('shop', $currentPage) ?>" title="Shop">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="nav-text">Shop</span>
+        </a>
+        <a href="../about.php" class="nav-link-futuristic <?= isActive('about', $currentPage) ?>" title="About">
+            <i class="fas fa-info-circle"></i>
+            <span class="nav-text">About</span>
+        </a>
+        <a href="../contact.php" class="nav-link-futuristic <?= isActive('contact', $currentPage) ?>" title="Contact">
+            <i class="fas fa-envelope"></i>
+            <span class="nav-text">Contact</span>
+        </a>
         <?php if ($isLoggedIn): ?>
-            <a href="orders.php" class="nav-link-futuristic <?= isActive('orders', $currentPage) ?>">My Orders</a>
+            <a href="orders.php" class="nav-link-futuristic <?= isActive('orders', $currentPage) ?>" title="My Orders">
+                <i class="fas fa-box"></i>
+                <span class="nav-text">My Orders</span>
+            </a>
         <?php endif; ?>
     </nav>
     <div class="header-actions-futuristic">
@@ -63,7 +78,7 @@ function isActive($page, $currentPage) {
             </a>
         <?php endif; ?>
         <div class="menu-toggle-futuristic" id="menu-toggle">
-            <span class="icon">menu</span>
+            <i class="fas fa-bars"></i>
         </div>
     </div>
 </header>

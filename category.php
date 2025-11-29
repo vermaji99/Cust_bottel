@@ -27,6 +27,7 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="assets/css/navbar.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
   <style>
     * {
       box-sizing: border-box;
@@ -44,14 +45,14 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     /* Breadcrumb Section */
     .breadcrumb-section {
       background: #1a1a1a;
-      padding: 48px 8%;
+      padding: clamp(2rem, 6vw, 3rem) clamp(4%, 8vw, 8%);
       text-align: center;
     }
     .breadcrumb-section h1 {
-      font-size: 2.25rem;
+      font-size: clamp(1.5rem, 5vw, 2.25rem);
       font-weight: 700;
       color: #fff;
-      margin: 0 0 8px;
+      margin: 0 0 clamp(0.5rem, 1vw, 0.75rem);
     }
     .breadcrumb-section p {
       color: #999;
@@ -62,32 +63,221 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     .container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 48px 4%;
-      padding-top: 100px;
+      padding: clamp(1rem, 3vw, 2rem) clamp(2%, 3vw, 4%);
+      padding-top: clamp(80px, 12vw, 120px);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: clamp(1rem, 3vw, 1.5rem) clamp(3%, 4vw, 5%);
+        padding-top: clamp(70px, 10vw, 90px);
+        max-width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: clamp(0.75rem, 2vw, 1rem) clamp(4%, 5vw, 6%);
+        padding-top: clamp(65px, 9vw, 80px);
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .container {
+        padding: clamp(0.75rem, 2vw, 1rem) clamp(3%, 4vw, 5%);
+      }
+    }
+    
+    /* Filter Button Container */
+    .filter-button-container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(2%, 3vw, 4%);
+      padding-top: clamp(100px, 15vw, 120px);
+      padding-bottom: clamp(0.5rem, 1vw, 0.75rem);
+      position: relative;
+      z-index: 1;
+      display: none;
+      box-sizing: border-box;
+    }
+    
+    @media (max-width: 1023px) {
+      .filter-button-container {
+        display: block;
+        padding-top: clamp(90px, 14vw, 110px);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .filter-button-container {
+        padding: 0 clamp(3%, 4vw, 5%);
+        padding-top: clamp(85px, 13vw, 100px);
+        padding-bottom: clamp(0.75rem, 1.5vw, 1rem);
+        max-width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .filter-button-container {
+        padding: 0 clamp(4%, 5vw, 6%);
+        padding-top: clamp(80px, 12vw, 95px);
+        padding-bottom: clamp(0.5rem, 1vw, 0.75rem);
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .filter-button-container {
+        padding: 0 clamp(3%, 4vw, 5%);
+        padding-top: clamp(75px, 11vw, 90px);
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .filter-button-container {
+        display: none;
+      }
     }
 
     /* Grid Layout */
     .shop-grid {
       display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(1.5rem, 4vw, 2rem);
+      width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    
+    @media (min-width: 1024px) {
+      .shop-grid {
       grid-template-columns: 280px 1fr;
-      gap: 32px;
+        gap: clamp(2rem, 4vw, 2.5rem);
+      }
+    }
+
+    /* Filter Toggle Button for Mobile */
+    .filter-toggle-btn {
+      display: none;
+      width: 100%;
+      padding: clamp(10px, 2vw, 12px) clamp(12px, 3vw, 16px);
+      background: linear-gradient(135deg, #00bcd4, #007bff);
+      color: #fff;
+      border: none;
+      border-radius: clamp(6px, 1.5vw, 8px);
+      font-weight: 600;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      cursor: pointer;
+      margin-bottom: 0;
+      margin-top: 0;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 1.5vw, 8px);
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 2px 8px rgba(0, 188, 212, 0.3);
+    }
+    
+    @media (max-width: 480px) {
+      .filter-toggle-btn {
+        padding: clamp(8px, 1.5vw, 10px) clamp(10px, 2.5vw, 14px);
+        font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+      }
+    }
+    
+    .filter-toggle-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
+    }
+    
+    .filter-toggle-btn i {
+      font-size: 1.1rem;
+      transition: transform 0.3s;
+    }
+    
+    .filter-toggle-btn.active i {
+      transform: rotate(180deg);
+    }
+    
+    @media (max-width: 1023px) {
+      .filter-toggle-btn {
+        display: flex;
+      }
     }
 
     /* Filter Sidebar */
+    .filter-sidebar {
+      transition: all 0.3s ease;
+    }
+    
     .filter-sidebar h2 {
-      font-size: 1.25rem;
+      font-size: clamp(1.1rem, 3vw, 1.25rem);
       font-weight: 600;
-      margin-bottom: 24px;
+      margin-bottom: clamp(1.25rem, 3vw, 1.5rem);
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    @media (max-width: 1023px) {
+      .filter-sidebar {
+        display: none;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(11, 12, 16, 0.98);
+        backdrop-filter: blur(20px);
+        z-index: 999;
+        padding: 20px;
+        overflow-y: auto;
+        max-height: calc(100vh - 80px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        animation: slideDown 0.3s ease-out;
+      }
+      
+      .filter-sidebar.active {
+        display: block;
+      }
+      
+      .filter-sidebar h2 {
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .filter-sidebar h2 .filter-close-btn {
+        display: flex !important;
+      }
+      
+      .filter-close-btn:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+      }
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .filter-group {
-      margin-bottom: 32px;
+      margin-bottom: clamp(1.5rem, 4vw, 2rem);
     }
     .filter-group h3 {
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: clamp(0.875rem, 2vw, 1rem);
       color: #ccc;
-      font-size: 1rem;
+      font-size: clamp(0.9rem, 2vw, 1rem);
     }
     .filter-options {
       display: flex;
@@ -192,40 +382,158 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     }
 
     /* Product Section */
+    .product-section {
+      width: 100%;
+      margin: 0 auto;
+    }
+    
     .product-section-header {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: clamp(12px, 3vw, 16px);
+      margin-bottom: clamp(16px, 4vw, 24px);
+      width: 100%;
     }
     .product-section-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: clamp(10px, 2.5vw, 16px);
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .results-count {
-      font-size: 0.875rem;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
       color: #999;
     }
     .sort-wrapper {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: clamp(6px, 1.5vw, 8px);
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .sort-wrapper span {
-      font-size: 0.875rem;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
       color: #999;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .sort-select {
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: clamp(5px, 1.2vw, 6px) clamp(10px, 2.5vw, 12px);
+      border-radius: clamp(4px, 1vw, 6px);
       background: #1a1a1a;
       border: 1px solid #333;
       color: #fff;
-      font-size: 0.875rem;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
       cursor: pointer;
+      max-width: 100%;
+      box-sizing: border-box;
+      width: auto;
+      min-width: 0;
+      flex: 1 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      position: relative;
+    }
+    
+    @media (max-width: 768px) {
+      .sort-select {
+        max-width: 85%;
+        width: auto;
+        flex: 0 1 auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .sort-select {
+        max-width: 100%;
+        width: 100%;
+        flex: none;
+      }
+    }
+    
+    .sort-select:focus {
+      outline: none;
+      border-color: #00bcd4;
+    }
+    
+    /* Ensure dropdown options don't overflow */
+    .sort-select option {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 8px 12px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    
+    /* For mobile devices - reduce dropdown width */
+    @media (max-width: 768px) {
+      .sort-wrapper {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        justify-content: flex-start;
+      }
+      
+      .sort-select {
+        max-width: 75%;
+        width: auto;
+        min-width: 0;
+        flex: 0 1 auto;
+        box-sizing: border-box;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .sort-wrapper {
+        flex-direction: row;
+        align-items: center;
+        gap: clamp(6px, 1.5vw, 8px);
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+      }
+      
+      .sort-wrapper span {
+        width: auto;
+        flex-shrink: 0;
+        font-size: clamp(0.7rem, 1.8vw, 0.75rem);
+      }
+      
+      .sort-select {
+        max-width: 70%;
+        width: auto;
+        min-width: 0;
+        flex: 0 1 auto;
+        box-sizing: border-box;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .sort-wrapper {
+        gap: clamp(4px, 1vw, 6px);
+      }
+      
+      .sort-wrapper span {
+        font-size: clamp(0.65rem, 1.6vw, 0.7rem);
+      }
+      
+      .sort-select {
+        max-width: 65%;
+        font-size: clamp(0.65rem, 1.6vw, 0.75rem);
+        padding: clamp(4px, 1vw, 5px) clamp(6px, 1.5vw, 8px);
+      }
     }
     .sort-select:focus {
       outline: none;
@@ -237,11 +545,11 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 24px;
+      gap: clamp(6px, 1.5vw, 8px);
+      margin-bottom: clamp(16px, 4vw, 24px);
     }
     .active-filters-label {
-      font-size: 0.875rem;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
       font-weight: 500;
       color: #ccc;
     }
@@ -250,11 +558,11 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       align-items: center;
       background: #00bcd4;
       color: white;
-      font-size: 0.75rem;
+      font-size: clamp(0.7rem, 1.8vw, 0.75rem);
       font-weight: 600;
-      padding: 4px 12px;
+      padding: clamp(3px, 0.8vw, 4px) clamp(10px, 2.5vw, 12px);
       border-radius: 9999px;
-      gap: 8px;
+      gap: clamp(6px, 1.5vw, 8px);
     }
     .filter-tag button {
       background: none;
@@ -282,18 +590,51 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     /* Products Grid */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
+      grid-template-columns: 1fr;
+      gap: clamp(0.75rem, 2vw, 1rem);
+      width: 100%;
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 360px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(0.875rem, 2.5vw, 1.25rem);
+      }
+    }
+    
+    @media (min-width: 480px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(1rem, 2.5vw, 1.25rem);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: clamp(1rem, 2.5vw, 1.5rem);
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: clamp(1.25rem, 3vw, 1.5rem);
+      }
     }
 
     /* Product Card */
     .product-card {
       background: #141414;
-      border-radius: 8px;
+      border-radius: clamp(6px, 1.5vw, 8px);
       overflow: hidden;
       transition: 0.3s;
       position: relative;
       cursor: pointer;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
     }
     .product-card:hover {
       transform: translateY(-4px);
@@ -302,9 +643,15 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     .product-image-wrapper {
       position: relative;
       width: 100%;
-      height: 256px;
+      height: clamp(180px, 45vw, 256px);
       overflow: hidden;
       background: #0f0f0f;
+    }
+    
+    @media (max-width: 480px) {
+      .product-image-wrapper {
+        height: clamp(200px, 50vw, 240px);
+      }
     }
     .product-image-wrapper img {
       width: 100%;
@@ -341,6 +688,26 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     .product-card:hover .product-actions {
       opacity: 1;
     }
+    
+    /* Always visible on small devices */
+    @media (max-width: 768px) {
+      .product-actions {
+        opacity: 1 !important;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        gap: 6px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .product-actions {
+        opacity: 1 !important;
+        top: 6px;
+        right: 6px;
+        gap: 5px;
+      }
+    }
     .product-action-btn {
       width: 40px;
       height: 40px;
@@ -360,19 +727,46 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       background: #00bcd4;
       color: white;
     }
+    
+    /* Enhanced visibility on small devices */
+    @media (max-width: 768px) {
+      .product-action-btn {
+        width: clamp(36px, 8vw, 38px);
+        height: clamp(36px, 8vw, 38px);
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        font-size: clamp(1rem, 2.5vw, 1.1rem);
+      }
+      
+      .product-action-btn:active {
+        transform: scale(0.95);
+        background: #00bcd4;
+        color: white;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .product-action-btn {
+        width: clamp(34px, 7vw, 36px);
+        height: clamp(34px, 7vw, 36px);
+        font-size: clamp(0.9rem, 2vw, 1rem);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      }
+    }
     .product-info {
-      padding: 16px;
+      padding: clamp(12px, 3vw, 16px);
     }
     .product-category {
-      font-size: 0.875rem;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
       color: #999;
-      margin-bottom: 4px;
+      margin-bottom: clamp(3px, 0.8vw, 4px);
     }
     .product-name {
       font-weight: 600;
       color: #fff;
-      margin: 4px 0;
-      font-size: 1rem;
+      margin: clamp(3px, 0.8vw, 4px) 0;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      line-height: 1.4;
     }
     .product-price-rating {
       display: flex;
@@ -387,11 +781,11 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     }
     .price-current {
       font-weight: 700;
-      font-size: 1.125rem;
+      font-size: clamp(1rem, 2.5vw, 1.125rem);
       color: #00bcd4;
     }
     .price-original {
-      font-size: 0.875rem;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
       color: #666;
       text-decoration: line-through;
     }
@@ -416,8 +810,25 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
-      margin-top: 48px;
+      gap: clamp(6px, 1.5vw, 8px);
+      margin-top: clamp(2rem, 5vw, 3rem);
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    
+    @media (max-width: 480px) {
+      .pagination {
+        gap: clamp(4px, 1vw, 6px);
+        margin-top: clamp(1.5rem, 4vw, 2rem);
+      }
+      
+      .pagination a,
+      .pagination span {
+        padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2.5vw, 12px);
+        min-width: clamp(36px, 9vw, 40px);
+        height: clamp(36px, 9vw, 40px);
+        font-size: clamp(0.8rem, 2vw, 0.875rem);
+      }
     }
     .pagination a,
     .pagination span {
@@ -444,61 +855,160 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
     /* Footer Section */
     .features-section {
       background: #1a1a1a;
-      padding: 48px 8%;
-      margin-top: 48px;
+      padding: clamp(2rem, 5vw, 3rem) clamp(4%, 6vw, 8%);
+      margin-top: clamp(2rem, 5vw, 3rem);
+      width: 100%;
+      box-sizing: border-box;
     }
+    
+    @media (max-width: 480px) {
+      .features-section {
+        padding: clamp(1.5rem, 4vw, 2rem) clamp(4%, 5vw, 6%);
+    }
+    }
+    
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 32px;
+      grid-template-columns: 1fr;
+      gap: clamp(1.5rem, 4vw, 2rem);
       text-align: center;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    
+    @media (min-width: 480px) {
+      .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: clamp(1.75rem, 4vw, 2rem);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: clamp(2rem, 4vw, 2.5rem);
+      }
     }
     .feature-item {
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 480px) {
+      .feature-item {
+        padding: 0 clamp(1rem, 3vw, 1.5rem);
+      }
     }
     .feature-icon {
-      width: 60px;
-      height: 60px;
+      width: clamp(50px, 12vw, 60px);
+      height: clamp(50px, 12vw, 60px);
       background: rgba(0, 188, 212, 0.1);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: clamp(12px, 3vw, 16px);
     }
     .feature-icon .material-symbols-outlined {
-      font-size: 2rem;
+      font-size: clamp(1.5rem, 4vw, 2rem);
       color: #00bcd4;
     }
     .feature-title {
       font-weight: 600;
-      font-size: 1.125rem;
+      font-size: clamp(1rem, 2.5vw, 1.125rem);
       color: #fff;
-      margin-bottom: 8px;
+      margin-bottom: clamp(6px, 1.5vw, 8px);
     }
     .feature-desc {
-      font-size: 0.875rem;
+      font-size: clamp(0.8rem, 2vw, 0.875rem);
       color: #999;
+      line-height: 1.5;
     }
 
     @media (max-width: 1024px) {
       .shop-grid {
         grid-template-columns: 1fr;
       }
-      .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      
+      .filter-sidebar {
+        order: 2;
       }
+      
+      .product-section {
+        order: 1;
     }
+    }
+    
     @media (max-width: 768px) {
-      .products-grid {
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 16px;
-      }
       .product-section-top {
         flex-direction: column;
         align-items: flex-start;
+        gap: clamp(0.75rem, 2vw, 1rem);
+      }
+      
+      .product-section-header {
+        margin-bottom: clamp(1rem, 3vw, 1.5rem);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: clamp(1rem, 2.5vw, 1.25rem);
+        max-width: 100%;
+      }
+      
+      .product-section {
+        width: 100%;
+      }
+      
+      .product-section-top {
+        gap: clamp(0.75rem, 2vw, 1rem);
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .results-count {
+        font-size: clamp(0.75rem, 2vw, 0.85rem);
+        text-align: center;
+      }
+      
+      .sort-wrapper {
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        box-sizing: border-box;
+      }
+      
+      .sort-select {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+      }
+      
+      .active-filters {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .products-grid {
+        gap: clamp(0.875rem, 2vw, 1rem);
+      }
+      
+      .product-info {
+        padding: clamp(12px, 3vw, 14px);
+      }
+      
+      .product-card {
+        max-width: 100%;
       }
     }
   </style>
@@ -513,12 +1023,25 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
   <p>Home / Shop</p>
 </div> -->
 
+<!-- Filter Toggle Button Container (Mobile Only) -->
+<div class="filter-button-container">
+  <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilterSidebar()">
+    <i class="fas fa-filter"></i>
+    <span>Filter Options</span>
+  </button>
+</div>
+
 <!-- Main Container -->
 <div class="container">
   <div class="shop-grid">
     <!-- Filter Sidebar -->
-    <aside class="filter-sidebar">
-      <h2>Filter Options</h2>
+    <aside class="filter-sidebar" id="filterSidebar">
+      <h2>
+        <span>Filter Options</span>
+        <button class="filter-close-btn" onclick="toggleFilterSidebar()" style="display: none; background: transparent; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s;">
+          <i class="fas fa-times"></i>
+        </button>
+      </h2>
 
       <!-- Categories -->
       <div class="filter-group">
@@ -736,7 +1259,7 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
           <div class="sort-wrapper">
             
             <span>Sort by:</span>
-            <select class="sort-select" id="sortSelect" onchange="updateSort()">
+            <select class="sort-select" id="sortSelect" onchange="updateSort()" style="max-width: 100%; width: 100%;">
               <?php
               $selectedSort = $_GET['sort'] ?? '';
               ?>
@@ -1147,6 +1670,121 @@ function filterByRating(rating) {
 
 // Initialize price slider
 updatePriceSlider();
+
+// Fix select dropdown width on mobile - ensure options don't overflow screen
+(function() {
+  const sortSelect = document.getElementById('sortSelect');
+  if (sortSelect) {
+    // Constrain select width to prevent overflow
+    function constrainSelectWidth() {
+      const wrapper = sortSelect.closest('.sort-wrapper');
+      if (wrapper) {
+        const container = wrapper.closest('.product-section-top') || wrapper.closest('.product-section-header') || wrapper.closest('.container');
+        if (container) {
+          const containerRect = container.getBoundingClientRect();
+          const containerWidth = containerRect.width;
+          const viewportWidth = window.innerWidth;
+          
+          if (window.innerWidth <= 768) {
+            // On mobile, reduce width to percentage of container
+            if (window.innerWidth <= 480) {
+              if (window.innerWidth <= 360) {
+                sortSelect.style.maxWidth = '65%';
+              } else {
+                sortSelect.style.maxWidth = '70%';
+              }
+            } else {
+              sortSelect.style.maxWidth = '75%';
+            }
+            sortSelect.style.width = 'auto';
+            sortSelect.style.minWidth = '0';
+          } else {
+            // On desktop, calculate available space
+            const span = wrapper.querySelector('span');
+            const spanWidth = span ? span.getBoundingClientRect().width : 0;
+            const gap = 8;
+            const availableWidth = containerWidth - spanWidth - gap;
+            sortSelect.style.maxWidth = Math.min(availableWidth, viewportWidth - 40) + 'px'; // 40px for margins
+            sortSelect.style.width = 'auto';
+          }
+        }
+      }
+    }
+    
+    // Run on load, resize, and orientation change
+    window.addEventListener('resize', constrainSelectWidth);
+    window.addEventListener('orientationchange', constrainSelectWidth);
+    window.addEventListener('load', constrainSelectWidth);
+    
+    // Run after a short delay to ensure DOM is ready
+    setTimeout(constrainSelectWidth, 100);
+    setTimeout(constrainSelectWidth, 500);
+    
+    // Also fix on focus/click (when dropdown opens)
+    sortSelect.addEventListener('focus', constrainSelectWidth);
+    sortSelect.addEventListener('click', constrainSelectWidth);
+    sortSelect.addEventListener('mousedown', constrainSelectWidth);
+  }
+})();
+
+// Filter Sidebar Toggle Function
+function toggleFilterSidebar() {
+  const filterSidebar = document.getElementById('filterSidebar');
+  const filterToggleBtn = document.getElementById('filterToggleBtn');
+  const closeBtn = filterSidebar.querySelector('.filter-close-btn');
+  
+  if (filterSidebar && filterToggleBtn) {
+    filterSidebar.classList.toggle('active');
+    filterToggleBtn.classList.toggle('active');
+    
+    // Show/hide close button on mobile
+    if (window.innerWidth <= 1023) {
+      if (closeBtn) {
+        closeBtn.style.display = filterSidebar.classList.contains('active') ? 'flex' : 'none';
+      }
+      
+      // Prevent body scroll when filter is open
+      if (filterSidebar.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  }
+}
+
+// Close filter sidebar when clicking outside on mobile
+document.addEventListener('click', function(e) {
+  const filterSidebar = document.getElementById('filterSidebar');
+  const filterToggleBtn = document.getElementById('filterToggleBtn');
+  
+  if (window.innerWidth <= 1023 && filterSidebar && filterToggleBtn) {
+    if (filterSidebar.classList.contains('active') && 
+        !filterSidebar.contains(e.target) && 
+        !filterToggleBtn.contains(e.target)) {
+      toggleFilterSidebar();
+    }
+  }
+});
+
+// Update close button visibility on resize
+window.addEventListener('resize', function() {
+  const filterSidebar = document.getElementById('filterSidebar');
+  const closeBtn = filterSidebar ? filterSidebar.querySelector('.filter-close-btn') : null;
+  
+  if (window.innerWidth > 1023) {
+    if (filterSidebar) {
+      filterSidebar.classList.remove('active');
+      filterSidebar.style.display = '';
+    }
+    if (closeBtn) {
+      closeBtn.style.display = 'none';
+    }
+    document.body.style.overflow = '';
+  } else if (closeBtn && filterSidebar && filterSidebar.classList.contains('active')) {
+    closeBtn.style.display = 'flex';
+  }
+});
 
 // Buy Now function - adds to cart and redirects to checkout
 function buyNow(productId) {

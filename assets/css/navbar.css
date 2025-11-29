@@ -1,11 +1,15 @@
-/* Exact Futuristic Navbar - Matching Provided Code */
+/* ============================================
+   NAVBAR CSS - Clean and Responsive
+   ============================================ */
 
 /* === Base Navbar === */
 header#main-header.header-futuristic {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
+    max-width: 100vw;
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -17,6 +21,9 @@ header#main-header.header-futuristic {
     box-sizing: border-box;
     transition: all 0.3s ease;
     color: white;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    overflow-x: hidden;
 }
 
 header#main-header.header-futuristic.scrolled {
@@ -35,14 +42,14 @@ header#main-header.header-futuristic.scrolled {
     cursor: pointer;
     transition: opacity 0.3s ease;
     white-space: nowrap;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: "Space Grotesk", sans-serif;
 }
 
 .logo-futuristic:hover {
     opacity: 0.8;
 }
 
-/* === Navigation Links (Exact Match) === */
+/* === Navigation Links === */
 .nav-futuristic {
     display: none;
     align-items: center;
@@ -52,9 +59,37 @@ header#main-header.header-futuristic.scrolled {
     list-style: none;
 }
 
+/* Desktop - Show navigation */
 @media (min-width: 768px) {
     .nav-futuristic {
-        display: flex;
+        display: flex !important;
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        width: auto !important;
+        max-width: none !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-top: none !important;
+        max-height: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: auto !important;
+        box-shadow: none !important;
+        flex-direction: row !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    /* Ensure mobile menu classes don't affect desktop */
+    .nav-futuristic.nav-open,
+    .nav-futuristic.active {
+        display: flex !important;
+        position: static !important;
+        max-height: none !important;
+        padding: 0 !important;
     }
 }
 
@@ -68,7 +103,79 @@ header#main-header.header-futuristic.scrolled {
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: "Space Grotesk", sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link-futuristic i {
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+.nav-link-futuristic .nav-text {
+    display: inline-block;
+}
+
+/* Desktop - Show both icon and text */
+@media (min-width: 1200px) {
+    .nav-link-futuristic .nav-text {
+        display: inline-block;
+    }
+}
+
+/* Tablet - Show only icons */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .nav-link-futuristic .nav-text {
+        display: none;
+    }
+
+    .nav-link-futuristic {
+        padding: 8px;
+        justify-content: center;
+    }
+
+    .nav-link-futuristic i {
+        font-size: 1.2rem;
+    }
+
+    /* Override: Show text in mobile menu when nav is open */
+    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
+    .nav-futuristic.active .nav-link-futuristic .nav-text {
+        display: inline-block !important;
+    }
+}
+
+/* CRITICAL: Mobile menu override - Force visibility of nav links */
+@media (max-width: 767px) {
+    /* Override any conflicting styles when menu is open */
+    .nav-futuristic.nav-open .nav-link-futuristic,
+    .nav-futuristic.active .nav-link-futuristic {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        min-height: 48px !important;
+        height: auto !important;
+        padding: 16px 20px !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        overflow: visible !important;
+        clip: auto !important;
+        clip-path: none !important;
+    }
+
+    /* Force icons and text visibility */
+    .nav-futuristic.nav-open .nav-link-futuristic i,
+    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
+    .nav-futuristic.active .nav-link-futuristic i,
+    .nav-futuristic.active .nav-link-futuristic .nav-text {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
 }
 
 .nav-link-futuristic:hover {
@@ -82,15 +189,18 @@ header#main-header.header-futuristic.scrolled {
     position: relative;
 }
 
-.nav-link-futuristic.active::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: #00bcd4;
-    border-radius: 1px;
+/* Desktop active link underline */
+@media (min-width: 768px) {
+    .nav-link-futuristic.active::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #00bcd4;
+        border-radius: 1px;
+    }
 }
 
 /* === Header Actions === */
@@ -102,7 +212,7 @@ header#main-header.header-futuristic.scrolled {
     z-index: 1100;
 }
 
-/* === Icon Button (Exact Match) === */
+/* === Icon Button === */
 .icon-btn-futuristic {
     display: flex;
     align-items: center;
@@ -117,7 +227,7 @@ header#main-header.header-futuristic.scrolled {
     cursor: pointer;
     text-decoration: none;
     position: relative;
-    z-index: 1; /* Ensure it's above other elements */
+    z-index: 1;
 }
 
 .icon-btn-futuristic:hover {
@@ -127,7 +237,7 @@ header#main-header.header-futuristic.scrolled {
 
 .icon-btn-futuristic .icon {
     font-size: 20px;
-    font-family: 'Material Symbols Outlined';
+    font-family: "Material Symbols Outlined";
 }
 
 .icon-btn-futuristic.cart-icon {
@@ -138,8 +248,8 @@ header#main-header.header-futuristic.scrolled {
 .icon-btn-futuristic.cart-icon i,
 .icon-btn-futuristic.profile-icon i {
     font-size: 1.1rem;
-    font-family: 'Font Awesome 6 Free';
-    pointer-events: none; /* Allow click to pass through to link */
+    font-family: "Font Awesome 6 Free";
+    pointer-events: none;
 }
 
 /* === Badge Count === */
@@ -147,7 +257,6 @@ header#main-header.header-futuristic.scrolled {
     display: none !important;
 }
 
-/* === Badge Count === */
 .badge-count {
     position: absolute;
     top: -5px;
@@ -238,7 +347,7 @@ header#main-header.header-futuristic.scrolled {
 
 /* === Menu Toggle (Mobile) === */
 .menu-toggle-futuristic {
-    display: flex;
+    display: none;
     cursor: pointer;
     width: 48px;
     height: 48px;
@@ -249,71 +358,265 @@ header#main-header.header-futuristic.scrolled {
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     color: white;
+    position: relative;
+    z-index: 100001;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    flex-shrink: 0;
 }
 
 .menu-toggle-futuristic:hover {
     background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
 }
 
-.menu-toggle-futuristic .icon {
+.menu-toggle-futuristic:active {
+    transform: scale(0.95);
+}
+
+.menu-toggle-futuristic i {
     font-size: 20px;
-    font-family: 'Material Symbols Outlined';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    pointer-events: none;
+    position: relative;
+    display: block;
 }
 
-@media (min-width: 768px) {
+/* Show menu toggle on mobile */
+@media (max-width: 767px) {
     .menu-toggle-futuristic {
-        display: none;
+        display: flex !important;
     }
 }
 
-
-/* === Mobile Responsive === */
+/* === Mobile Menu Styles === */
 @media (max-width: 767px) {
     header#main-header.header-futuristic {
         padding: 20px 4%;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
     }
 
     header#main-header.header-futuristic.scrolled {
         padding: 15px 4%;
     }
 
-    .menu-toggle-futuristic {
-        display: flex;
-    }
-
+    /* Mobile Navigation Menu - CLOSED STATE */
     .nav-futuristic {
         position: fixed;
         top: 70px;
         left: 0;
+        right: 0;
         width: 100%;
+        max-width: 100vw;
         background: rgba(11, 12, 16, 0.98);
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 999;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.3s ease, visibility 0.3s ease, padding 0.3s ease;
+        z-index: 99999;
+    }
+
+    /* DISABLE transitions when menu is open */
+    .nav-futuristic.nav-open,
+    .nav-futuristic.active {
+        transition: none !important;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         flex-direction: column;
-        gap: 8px;
-        padding: 0 4%;
+        gap: 0;
+        padding: 0;
+        opacity: 0;
+        visibility: hidden;
+        display: none;
+        margin: 0;
+        box-sizing: border-box;
     }
 
+    /* Ensure nav links are hidden when menu is closed */
+    .nav-futuristic:not(.nav-open):not(.active) .nav-link-futuristic {
+        display: none !important;
+    }
+
+    /* Mobile Navigation Menu - OPEN STATE */
+    .nav-futuristic.nav-open,
     .nav-futuristic.active {
-        max-height: 500px;
-        padding: 20px 4%;
-        display: flex;
+        max-height: calc(100vh - 70px) !important;
+        min-height: 200px !important;
+        padding: 20px 0 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+        position: fixed !important;
+        top: 70px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        z-index: 99999 !important;
+        overflow-y: auto !important;
+        overflow-x: visible !important;
+        background: rgba(11, 12, 16, 0.98) !important;
+        margin: 0 !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        transform: translateZ(0) !important;
+        -webkit-transform: translateZ(0) !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        transition: none !important;
     }
 
+    /* CRITICAL: Force nav links to be visible when menu is open */
+    .nav-futuristic.nav-open .nav-link-futuristic,
+    .nav-futuristic.active .nav-link-futuristic {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        min-height: 48px !important;
+        height: auto !important;
+        padding: 16px 20px !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        overflow: visible !important;
+        clip: auto !important;
+        clip-path: none !important;
+    }
+
+    /* Force icons and text visibility */
+    .nav-futuristic.nav-open .nav-link-futuristic i,
+    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
+    .nav-futuristic.active .nav-link-futuristic i,
+    .nav-futuristic.active .nav-link-futuristic .nav-text {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .nav-futuristic.nav-open .nav-link-futuristic,
+    .nav-futuristic.active .nav-link-futuristic {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        opacity: 1 !important;
+        transform: translateY(0);
+        visibility: visible !important;
+        display: flex !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .nav-futuristic.nav-open .nav-link-futuristic i,
+    .nav-futuristic.nav-open .nav-link-futuristic .nav-text {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .nav-futuristic.nav-open .nav-link-futuristic:last-child,
+    .nav-futuristic.active .nav-link-futuristic:last-child {
+        border-bottom: none;
+    }
+
+    /* Navigation Links in Mobile Menu - FORCE VISIBILITY */
     .nav-link-futuristic {
-        padding: 12px 16px;
+        padding: 16px 20px !important;
         border-radius: 0;
-        width: 100%;
-        font-size: 0.875rem;
+        width: 100% !important;
+        min-width: 100% !important;
+        font-size: 0.9rem !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        gap: 12px !important;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        border-bottom: 1px solid transparent;
+        transition: all 0.3s ease;
+        display: flex !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        visibility: visible !important;
+        text-decoration: none !important;
+        flex-direction: row !important;
+        position: relative !important;
+        height: auto !important;
+        min-height: 48px !important;
+        overflow: visible !important;
+        clip: auto !important;
+        clip-path: none !important;
+    }
+
+    .nav-futuristic.nav-open .nav-link-futuristic,
+    .nav-futuristic.active .nav-link-futuristic {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        visibility: visible !important;
+        display: flex !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        padding: 16px 20px !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        min-height: 48px !important;
+        height: auto !important;
+        overflow: visible !important;
+        clip: auto !important;
+        clip-path: none !important;
+    }
+
+    .nav-link-futuristic i {
+        font-size: 1.1rem !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        text-align: center !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        flex-shrink: 0 !important;
+    }
+
+    .nav-link-futuristic .nav-text {
+        display: inline-block !important;
+        font-weight: 500 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+        margin-left: 12px !important;
+    }
+
+    .nav-futuristic.nav-open .nav-link-futuristic i,
+    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
+    .nav-futuristic.active .nav-link-futuristic i,
+    .nav-futuristic.active .nav-link-futuristic .nav-text {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .nav-link-futuristic.active {
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 2px solid #00bcd4;
+        background: rgba(0, 188, 212, 0.05);
     }
 
     .nav-link-futuristic:hover {
         background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .nav-link-futuristic.active:hover {
+        background: rgba(0, 188, 212, 0.1);
     }
 
     .profile-dropdown-menu {
@@ -321,37 +624,123 @@ header#main-header.header-futuristic.scrolled {
         left: auto;
         width: 200px;
     }
-
-    .icons {
-        gap: 6px;
-    }
-
-    .logo {
-        font-size: 1.3rem;
-    }
 }
 
 /* === Extra Small Devices === */
 @media (max-width: 480px) {
-    header#main-header {
-        padding: 8px 3%;
+    header#main-header.header-futuristic {
+        padding: 12px 3%;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
     }
 
-    .logo {
-        font-size: 1.2rem;
+    header#main-header.header-futuristic.scrolled {
+        padding: 10px 3%;
     }
 
-    .icons {
-        gap: 6px;
+    .logo-futuristic {
+        font-size: clamp(1.1rem, 4vw, 1.3rem);
     }
 
-    .icon-link {
+    .header-actions-futuristic {
+        gap: 8px;
+    }
+
+    .icon-btn-futuristic {
+        width: clamp(36px, 8vw, 42px);
+        height: clamp(36px, 8vw, 42px);
+    }
+
+    .icon-btn-futuristic i {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+    }
+
+    .menu-toggle-futuristic {
+        width: clamp(36px, 8vw, 42px);
+        height: clamp(36px, 8vw, 42px);
+    }
+
+    .menu-toggle-futuristic i {
+        font-size: clamp(18px, 4vw, 20px);
+    }
+
+    .nav-futuristic {
+        top: 0 !important;
+        margin-top: 60px !important;
+    }
+
+    .nav-futuristic.nav-open,
+    .nav-futuristic.active {
+        padding: 16px 0 !important;
+        top: 60px !important;
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        z-index: 99999 !important;
+        max-height: calc(100vh - 60px) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        margin-top: 0 !important;
+        background: rgba(11, 12, 16, 0.98) !important;
+    }
+
+    /* Force nav links visibility on very small screens */
+    .nav-link-futuristic {
+        font-size: clamp(0.8rem, 3vw, 0.9rem) !important;
+        padding: 14px 16px !important;
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 100% !important;
+        min-height: 48px !important;
+    }
+
+    .nav-futuristic.nav-open .nav-link-futuristic,
+    .nav-futuristic.active .nav-link-futuristic {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .nav-futuristic.nav-open .nav-link-futuristic i,
+    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
+    .nav-futuristic.active .nav-link-futuristic i,
+    .nav-futuristic.active .nav-link-futuristic .nav-text {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .profile-dropdown-menu {
+        right: 3%;
+        left: 3%;
+        width: auto;
+        min-width: 180px;
+    }
+}
+
+/* === Very Small Devices (320px and below) === */
+@media (max-width: 320px) {
+    header#main-header.header-futuristic {
+        padding: 10px 2%;
+    }
+
+    .logo-futuristic {
+        font-size: 1rem;
+    }
+
+    .icon-btn-futuristic {
         width: 32px;
         height: 32px;
-        font-size: 0.875rem;
     }
 
-    .menu-toggle {
+    .menu-toggle-futuristic {
         width: 32px;
         height: 32px;
     }
