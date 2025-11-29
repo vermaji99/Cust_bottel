@@ -1,7 +1,8 @@
 <?php
-require __DIR__ . '/init.php';
-$user = $authUser;
-$user_id = $authUser['id'];
+// Dashboard redirect - User requested to remove dashboard page
+// Redirect to home page instead
+header("Location: ../index.php");
+exit;
 
 // Quick stats
 // A. Order Count
@@ -39,7 +40,7 @@ function getStatusClass($status) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="app-base" content="<?= esc(app_config('app_url')); ?>">
-<title>Bottel | Dashboard</title>
+<title>Bottle | Dashboard</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 body {
@@ -132,7 +133,7 @@ footer {
 <body>
 
 <header>
-    <div class="logo">Bottel</div>
+    <div class="logo">Bottle</div>
     <nav>
         <ul>
             <li><a href="../index.php">Home</a></li>
@@ -207,7 +208,7 @@ footer {
 </div>
 
 <footer>
-    © <?= date("Y") ?> Bottel. All rights reserved.
+    © <?= date("Y") ?> Bottle. All rights reserved.
 </footer>
 
 </body>

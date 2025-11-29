@@ -22,12 +22,21 @@ if (!$cartItems) {
 }
 
 $subtotal = 0;
-foreach ($cartItems as $item) {
-    $subtotal += $item['quantity'] * $item['price'];
+foreach ($cartItems as &$item) {
+    // Use price_snapshot if available (price when added to cart), otherwise current price
+    $itemPrice = !empty($item['price_snapshot']) ? (float)$item['price_snapshot'] : (float)$item['price'];
+    $quantity = (int)$item['quantity'];
+    $subtotal += $quantity * $itemPrice;
+    $item['display_price'] = $itemPrice; // Store for display and order items
 }
+unset($item); // Unset reference
+
+// Calculate discount and total - ensure proper rounding
+$subtotal = round($subtotal, 2);
 $coupon = $couponCode ? find_coupon($couponCode) : null;
 $discount = $coupon ? calculate_coupon_discount($subtotal, $coupon) : 0;
-$grandTotal = max($subtotal - $discount, 0);
+$discount = round($discount, 2);
+$grandTotal = round(max($subtotal - $discount, 0), 2);
 
 $designId = null;
 if ($designKey) {
@@ -63,7 +72,8 @@ try {
 
     $itemStmt = db()->prepare('INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (?, ?, ?, ?)');
     foreach ($cartItems as $item) {
-        $itemStmt->execute([$orderId, $item['product_id'], $item['quantity'], $item['price']]);
+        $itemPrice = $item['display_price'] ?? (!empty($item['price_snapshot']) ? (float)$item['price_snapshot'] : (float)$item['price']);
+        $itemStmt->execute([$orderId, $item['product_id'], $item['quantity'], $itemPrice]);
     }
 
     $timeline = db()->prepare('INSERT INTO order_status_history (order_id, status, note) VALUES (?, ?, ?)');
@@ -72,7 +82,19 @@ try {
     $clear = db()->prepare('DELETE FROM cart_items WHERE user_id = ?');
     $clear->execute([$user['id']]);
 
+    // Send confirmation emails (don't fail order if email fails)
+    try {
     send_order_confirmation_email($orderId);
+    } catch (Throwable $emailError) {
+        error_log('Order confirmation email failed for order #' . $orderNumber . ': ' . $emailError->getMessage());
+    }
+    
+    // Send admin order received email for action
+    try {
+        send_admin_order_received_email($orderId);
+    } catch (Throwable $emailError) {
+        error_log('Admin order received email failed for order #' . $orderNumber . ': ' . $emailError->getMessage());
+    }
 
     db()->commit();
     json_response(['success' => true, 'order_number' => $orderNumber]);

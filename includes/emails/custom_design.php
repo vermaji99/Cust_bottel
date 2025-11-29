@@ -9,7 +9,7 @@
     </p>
   <?php endif; ?>
   <p>You can re-open it anytime from “My Designs” or attach it to a new order.</p>
-  <p style="margin-top:40px;color:#aaa;">Cheers,<br>The Bottel studio</p>
+  <p style="margin-top:40px;color:#aaa;">Cheers,<br>The Bottle studio</p>
 </div>
 
 

@@ -62,6 +62,72 @@ if (!function_exists('bottelEnsureSchema')) {
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 ");
             }
+
+            // Check and create reviews table if it doesn't exist
+            $reviewsTableStmt = $pdo->prepare("
+                SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES
+                WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'reviews'
+            ");
+            $reviewsTableStmt->execute([$schema]);
+            $reviewsTableExists = (int) $reviewsTableStmt->fetchColumn() > 0;
+            
+            if (!$reviewsTableExists) {
+                // Create table without foreign keys first
+                $pdo->exec("
+                    CREATE TABLE IF NOT EXISTS reviews (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        product_id INT NOT NULL,
+                        user_id INT NOT NULL,
+                        rating TINYINT(1) NOT NULL,
+                        comment TEXT DEFAULT NULL,
+                        admin_reply TEXT DEFAULT NULL,
+                        admin_replied_at TIMESTAMP NULL DEFAULT NULL,
+                        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                        KEY product_id (product_id),
+                        KEY user_id (user_id),
+                        KEY rating (rating),
+                        UNIQUE KEY unique_user_product_review (user_id, product_id)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+                ");
+                
+                // Try to add foreign keys (may fail silently if referenced tables don't exist)
+                try {
+                    $pdo->exec("ALTER TABLE reviews ADD CONSTRAINT reviews_ibfk_1 FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE");
+                } catch (PDOException $e) {
+                    // Foreign key might fail, continue without it
+                }
+                try {
+                    $pdo->exec("ALTER TABLE reviews ADD CONSTRAINT reviews_ibfk_2 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE");
+                } catch (PDOException $e) {
+                    // Foreign key might fail, continue without it
+                }
+                
+                // Add index for faster queries
+                try {
+                    $pdo->exec("CREATE INDEX idx_product_rating ON reviews(product_id, rating)");
+                } catch (PDOException $e) {
+                    // Index might already exist, ignore
+                }
+            } else {
+                // Table exists - ensure 'comment' column exists (fix for missing column error)
+                try {
+                    $commentColumnStmt = $pdo->prepare("
+                        SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+                        WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'reviews' AND COLUMN_NAME = 'comment'
+                    ");
+                    $commentColumnStmt->execute([$schema]);
+                    $commentColumnExists = (int) $commentColumnStmt->fetchColumn() > 0;
+                    
+                    if (!$commentColumnExists) {
+                        // Add missing comment column
+                        $pdo->exec("ALTER TABLE reviews ADD COLUMN comment TEXT DEFAULT NULL AFTER rating");
+                        error_log("Added missing 'comment' column to existing reviews table");
+                    }
+                } catch (PDOException $e) {
+                    error_log("Failed to check/add comment column: " . $e->getMessage());
+                }
+            }
         } catch (Throwable $e) {
             error_log('Schema check failed: ' . $e->getMessage());
         }

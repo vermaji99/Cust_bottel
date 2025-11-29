@@ -27,6 +27,7 @@ if (empty($user['email_verified_at'])) {
     json_response(['success' => false, 'error' => 'EMAIL_NOT_VERIFIED'], 403);
 }
 
+// Direct login without OTP verification
 record_login_attempt($email, true);
 login_user($user);
 

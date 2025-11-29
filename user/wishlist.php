@@ -9,7 +9,7 @@ $wishlist = wishlist_items($authUser['id']);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="app-base" content="<?= esc(app_config('app_url')); ?>">
-<title>Bottel | Wishlist</title>
+<title>Bottle | Wishlist</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 body {
@@ -64,24 +64,20 @@ footer {
     color: #666;
     margin-top: 60px;
 }
+body {
+    padding-top: 0;
+}
 </style>
+    <link rel="stylesheet" href="../assets/css/navbar.css">
 </head>
 <body>
 
-<header>
-    <div class="logo">Bottel</div>
-    <nav>
-        <ul>
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="orders.php">Orders</a></li>
-            <li><a href="wishlist.php">Wishlist</a></li>
-            <li><a href="profile.php">Profile</a></li>
-            <li><a href="../logout.php">Logout</a></li>
-        </ul>
-    </nav>
-</header>
+<?php
+$currentPage = 'wishlist';
+include __DIR__ . '/../includes/navbar.php';
+?>
 
-<div class="container">
+<div class="container" style="padding-top: 100px;">
     <h2>My Wishlist</h2>
 
     <?php if(count($wishlist) > 0): ?>
@@ -105,9 +101,10 @@ footer {
 </div>
 
 <footer>
-    © <?= date("Y") ?> Bottel. All rights reserved.
+    © <?= date("Y") ?> Bottle. All rights reserved.
 </footer>
 
 </body>
+<script src="../assets/js/navbar.js" defer></script>
 <script src="../assets/js/app.js" defer></script>
 </html>

@@ -19,9 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } elseif (!empty($user['email_verified_at'])) {
                 $message = 'Email already verified.';
             } else {
-                $token = create_email_verification_token((int) $user['id']);
-                send_verification_email($user, $token);
-                $success = 'Verification email resent. Check your inbox.';
+                // Generate and send OTP
+                $otp = create_and_send_otp((int) $user['id'], $email, 'email_verification');
+                send_otp_email($user, $otp, 'email_verification');
+                
+                $_SESSION['otp_verification_email'] = $email;
+                $success = 'OTP has been resent to your email.';
+                
+                // Redirect to OTP verification page
+                header('Location: verify-otp.php?email=' . urlencode($email) . '&purpose=email_verification');
+                exit;
             }
         }
     }
@@ -32,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resend Verification | Bottel</title>
+  <title>Resend Verification | Bottle</title>
   <style>
     body{margin:0;font-family:Poppins,Arial,sans-serif;background:#050505;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;}
     .card{background:#101010;padding:40px;border-radius:16px;max-width:420px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
@@ -43,11 +50,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
   <div class="card">
-    <h1>Resend Verification</h1>
+    <h1>Resend OTP</h1>
     <form method="POST">
       <?= csrf_field(); ?>
       <input type="email" name="email" placeholder="Email address" required>
-      <button type="submit">Send link</button>
+      <button type="submit">Resend OTP</button>
     </form>
     <?php if ($message): ?><p style="color:#ff6b6b;"><?= esc($message); ?></p><?php endif; ?>
     <?php if ($success): ?><p style="color:#4ade80;"><?= esc($success); ?></p><?php endif; ?>

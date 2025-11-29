@@ -26,15 +26,33 @@ try {
     $stmt = db()->prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)');
     $stmt->execute([$name, $email, hash_password($password)]);
     $userId = (int) db()->lastInsertId();
-    $token = create_email_verification_token($userId);
-    send_verification_email(['id' => $userId, 'name' => $name, 'email' => $email], $token);
+    
+    // Create and send OTP for email verification
+    $otp = create_and_send_otp($userId, $email, 'email_verification');
+    
+    // Try to send email, but don't fail if it doesn't work
+    $emailSent = false;
+    try {
+        $emailSent = send_otp_email(['id' => $userId, 'name' => $name, 'email' => $email], $otp, 'email_verification');
+    } catch (Throwable $e) {
+        error_log('Registration OTP email failed: ' . $e->getMessage());
+    }
+    
     db()->commit();
 } catch (Throwable $e) {
     db()->rollBack();
     json_response(['success' => false, 'error' => 'SERVER_ERROR'], 500);
 }
 
-json_response(['success' => true, 'message' => 'Registered. Please verify email.']);
+json_response([
+    'success' => true, 
+    'message' => $emailSent 
+        ? 'Registered. Please check your email for OTP verification.' 
+        : 'Registered. OTP generated. Email sending failed - please contact support.',
+    'email' => $email,
+    'email_sent' => $emailSent,
+    'otp' => $emailSent ? null : $otp, // Show OTP in response if email failed (for debugging/alternative delivery)
+]);
 
 
 

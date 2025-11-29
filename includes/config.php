@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 $env = getenv('APP_ENV') ?: 'local';
-$appUrl = rtrim(getenv('APP_URL') ?: 'http://localhost/bottel-project', '/');
+$appUrl = rtrim(getenv('APP_URL') ?: 'http://localhost/custom_bottel/Cust_bottel', '/');
 
 $dbConfig = [
     'host' => getenv('DB_HOST') ?: 'localhost',
@@ -15,11 +15,12 @@ $smtpConfig = [
   'host' => 'smtp.gmail.com',
   'port' => 587,
   'encryption' => 'tls',
-  'username' => 'rohanverma66133@gmail.com',  // Your Gmail
-  'password' => 'slspgjqkwowqsgdc',     // Google App Password
-  'from_email' => 'rohanverma66133@gmail.com',
-  'from_name' => 'Bottel',
-  'reply_to' => 'rohanverma66133@gmail.com',
+  'username' => 'aryanjichoudhary1212@gmail.com',  // Your Gmail
+  'password' => 'oyupfienkhjeiqpg',     // Google App Password
+  'from_email' => 'aryanjichoudhary1212@gmail.com',
+  'from_name' => 'Bottle',
+  'reply_to' => 'modiakshat130@gmail.com',  // Admin email for notifications
+  'admin_email' => 'modiakshat130@gmail.com',  // Admin email for order notifications
 ];
 
 

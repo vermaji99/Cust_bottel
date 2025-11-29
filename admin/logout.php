@@ -1,5 +1,7 @@
 <?php
-require __DIR__ . '/../includes/bootstrap.php';
-logout_user();
-header("Location: login.php?logged_out=1");
+require __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/includes/auth.php';
+
+admin_logout();
+header('Location: login.php');
 exit;

@@ -1,5 +1,5 @@
 <aside class="admin-sidebar">
-  <div class="logo">Bottel<span>Admin</span></div>
+  <div class="logo">Bottle<span>Admin</span></div>
   <ul>
     <li><a href="index.php" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
     <li><a href="products.php"><i class="fas fa-bottle-water"></i> Products</a></li>

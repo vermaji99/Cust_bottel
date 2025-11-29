@@ -285,6 +285,7 @@ function mark_password_token_consumed(string $token): void
     $stmt->execute([hash('sha256', $token)]);
 }
 
+// OLD TOKEN-BASED FUNCTIONS - DEPRECATED
 function create_email_verification_token(int $userId): string
 {
     $token = generate_token(64);
@@ -310,6 +311,84 @@ function verify_email_token(string $token): bool
 
         $markToken = db()->prepare('UPDATE email_verifications SET consumed_at = NOW() WHERE id = ?');
         $markToken->execute([$record['id']]);
+
+        db()->commit();
+        return true;
+    } catch (Throwable $e) {
+        db()->rollBack();
+        return false;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// OTP Verification Functions (NEW)
+// -----------------------------------------------------------------------------
+
+function generate_otp(int $length = 6): string
+{
+    $min = pow(10, $length - 1);
+    $max = pow(10, $length) - 1;
+    return str_pad((string) random_int($min, $max), $length, '0', STR_PAD_LEFT);
+}
+
+function create_and_send_otp(int $userId, string $email, string $purpose = 'email_verification'): string
+{
+    // Delete old unverified OTPs for this user and purpose
+    $stmt = db()->prepare('DELETE FROM otp_verifications WHERE user_id = ? AND purpose = ? AND verified_at IS NULL');
+    $stmt->execute([$userId, $purpose]);
+
+    // Generate 6-digit OTP
+    $otp = generate_otp(6);
+    
+    // Set expiry time (10 minutes for OTP)
+    $expiryMinutes = 10;
+    
+    $stmt = db()->prepare('INSERT INTO otp_verifications (user_id, email, otp_code, purpose, expires_at) VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL ? MINUTE))');
+    $stmt->execute([$userId, $email, $otp, $purpose, $expiryMinutes]);
+    
+    return $otp;
+}
+
+function verify_otp(string $email, string $otp, string $purpose = 'email_verification'): ?array
+{
+    $stmt = db()->prepare('
+        SELECT * FROM otp_verifications 
+        WHERE email = ? AND otp_code = ? AND purpose = ? 
+        AND verified_at IS NULL AND expires_at > NOW() AND attempts < 5
+        LIMIT 1
+    ');
+    $stmt->execute([$email, $otp, $purpose]);
+    $record = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$record) {
+        // Increment attempts for failed OTP verification
+        $stmt = db()->prepare('UPDATE otp_verifications SET attempts = attempts + 1 WHERE email = ? AND otp_code = ? AND purpose = ?');
+        $stmt->execute([$email, $otp, $purpose]);
+        return null;
+    }
+
+    // Mark OTP as verified
+    $stmt = db()->prepare('UPDATE otp_verifications SET verified_at = NOW() WHERE id = ?');
+    $stmt->execute([$record['id']]);
+
+    return $record;
+}
+
+function verify_and_activate_user_otp(string $email, string $otp): bool
+{
+    $record = verify_otp($email, $otp, 'email_verification');
+    if (!$record) {
+        return false;
+    }
+
+    db()->beginTransaction();
+    try {
+        $updateUser = db()->prepare('UPDATE users SET email_verified_at = NOW() WHERE id = ?');
+        $updateUser->execute([$record['user_id']]);
+
+        // Delete all other unverified OTPs for this user
+        $stmt = db()->prepare('DELETE FROM otp_verifications WHERE user_id = ? AND verified_at IS NULL');
+        $stmt->execute([$record['user_id']]);
 
         db()->commit();
         return true;
@@ -364,11 +443,39 @@ function wishlist_remove(int $userId, int $productId): void
 
 function cart_items_detailed(int $userId): array
 {
+    // First, merge any duplicate entries and keep only one per product
+    $findDuplicates = db()->prepare('
+        SELECT product_id, COUNT(*) as cnt, SUM(quantity) as total_qty, MAX(id) as keep_id
+        FROM cart_items
+        WHERE user_id = ?
+        GROUP BY product_id
+        HAVING cnt > 1
+    ');
+    $findDuplicates->execute([$userId]);
+    $duplicates = $findDuplicates->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Merge duplicates: keep the highest ID entry, update its quantity, delete others
+    foreach ($duplicates as $dup) {
+        // Update the kept entry with merged quantity
+        $update = db()->prepare('UPDATE cart_items SET quantity = ? WHERE id = ?');
+        $update->execute([(int)$dup['total_qty'], (int)$dup['keep_id']]);
+        
+        // Delete all other duplicate entries for this product
+        $delete = db()->prepare('
+            DELETE FROM cart_items 
+            WHERE user_id = ? AND product_id = ? AND id != ?
+        ');
+        $delete->execute([$userId, $dup['product_id'], $dup['keep_id']]);
+    }
+    
+    // Now fetch clean items
     $stmt = db()->prepare('
-        SELECT ci.*, p.name, p.price, p.stock, p.image
+        SELECT ci.id, ci.product_id, ci.quantity, ci.price_snapshot,
+               p.name, p.price, p.stock, p.image, p.is_active
         FROM cart_items ci
         JOIN products p ON ci.product_id = p.id
-        WHERE ci.user_id = ?
+        WHERE ci.user_id = ? AND p.is_active = 1
+        ORDER BY ci.updated_at DESC
     ');
     $stmt->execute([$userId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -376,11 +483,28 @@ function cart_items_detailed(int $userId): array
 
 function cart_set_quantity(int $userId, int $productId, int $quantity): array
 {
-    $stmt = db()->prepare('SELECT id, stock, price FROM products WHERE id = ? LIMIT 1');
+    // First, remove any duplicate entries for this product
+    $deleteDuplicates = db()->prepare('
+        DELETE FROM cart_items 
+        WHERE user_id = ? AND product_id = ? AND id NOT IN (
+            SELECT * FROM (
+                SELECT id FROM cart_items 
+                WHERE user_id = ? AND product_id = ? 
+                ORDER BY id DESC LIMIT 1
+            ) AS temp
+        )
+    ');
+    $deleteDuplicates->execute([$userId, $productId, $userId, $productId]);
+    
+    $stmt = db()->prepare('SELECT id, stock, price, is_active FROM products WHERE id = ? LIMIT 1');
     $stmt->execute([$productId]);
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$product) {
         throw new RuntimeException('Product not found.');
+    }
+    
+    if (!$product['is_active']) {
+        throw new RuntimeException('Product is not available.');
     }
 
     if ($product['stock'] < $quantity) {
@@ -391,12 +515,24 @@ function cart_set_quantity(int $userId, int $productId, int $quantity): array
         $delete = db()->prepare('DELETE FROM cart_items WHERE user_id = ? AND product_id = ?');
         $delete->execute([$userId, $productId]);
     } else {
-        $upsert = db()->prepare('
-            INSERT INTO cart_items (user_id, product_id, quantity, price_snapshot, updated_at)
-            VALUES (?, ?, ?, ?, NOW())
-            ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price_snapshot = VALUES(price_snapshot), updated_at = NOW()
-        ');
-        $upsert->execute([$userId, $productId, $quantity, $product['price']]);
+        // Check if unique constraint exists
+        try {
+            $upsert = db()->prepare('
+                INSERT INTO cart_items (user_id, product_id, quantity, price_snapshot, updated_at)
+                VALUES (?, ?, ?, ?, NOW())
+                ON DUPLICATE KEY UPDATE quantity = VALUES(quantity), price_snapshot = VALUES(price_snapshot), updated_at = NOW()
+            ');
+            $upsert->execute([$userId, $productId, $quantity, $product['price']]);
+        } catch (PDOException $e) {
+            // If ON DUPLICATE KEY doesn't work, delete and re-insert
+            $delete = db()->prepare('DELETE FROM cart_items WHERE user_id = ? AND product_id = ?');
+            $delete->execute([$userId, $productId]);
+            $insert = db()->prepare('
+                INSERT INTO cart_items (user_id, product_id, quantity, price_snapshot, updated_at)
+                VALUES (?, ?, ?, ?, NOW())
+            ');
+            $insert->execute([$userId, $productId, $quantity, $product['price']]);
+        }
     }
 
     return ['quantity' => $quantity, 'price' => (float) $product['price']];

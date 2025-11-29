@@ -44,6 +44,22 @@ CREATE TABLE IF NOT EXISTS email_verifications (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- OTP Verification Table (for login and email verification)
+CREATE TABLE IF NOT EXISTS otp_verifications (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  otp_code VARCHAR(6) NOT NULL,
+  purpose ENUM('email_verification','login') NOT NULL DEFAULT 'email_verification',
+  attempts INT DEFAULT 0,
+  verified_at DATETIME NULL,
+  expires_at DATETIME NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_email_otp (email, otp_code, purpose),
+  INDEX idx_user_purpose (user_id, purpose),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS password_resets (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -138,6 +154,23 @@ CREATE TABLE IF NOT EXISTS order_status_history (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
+
+-- Categories Table
+CREATE TABLE IF NOT EXISTS categories (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  slug VARCHAR(120) NOT NULL UNIQUE,
+  description TEXT NULL,
+  is_active TINYINT(1) DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- User Status (for blocking/unblocking)
+ALTER TABLE users 
+  ADD COLUMN IF NOT EXISTS is_blocked TINYINT(1) DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS blocked_at DATETIME NULL,
+  ADD COLUMN IF NOT EXISTS blocked_reason TEXT NULL;
 
 
 

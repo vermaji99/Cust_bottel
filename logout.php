@@ -1,5 +1,5 @@
 <?php
 require __DIR__ . '/includes/bootstrap.php';
 logout_user();
-header('Location: login.php');
+header('Location: index.php');
 exit;

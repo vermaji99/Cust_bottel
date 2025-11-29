@@ -25,7 +25,7 @@ $customizerConfig = [
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="app-base" content="<?= esc(app_config('app_url')); ?>">
-<title>Customize Bottle — Bottel (Pro)</title>
+<title>Customize Bottle — Bottle (Pro)</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@400;700&family=Cinzel:wght@400;700&family=Great+Vibes&family=Bebas+Neue&display=swap" rel="stylesheet">
 
@@ -123,7 +123,7 @@ input[type="text"], select, input[type="number"], input[type="color"]{
 <div class="container">
 
   <div class="header">
-    <div class="title">Bottel — Customizer (Pro)</div>
+    <div class="title">Bottle — Customizer (Pro)</div>
     <div>
       <a href="index.php" style="color:var(--muted);text-decoration:none;margin-right:10px"><i class="fa fa-arrow-left"></i> Back</a>
       <button id="downloadBtn" class="btn"><i class="fa fa-download"></i> Download PNG</button>
@@ -1117,7 +1117,7 @@ downloadBtn.onclick = async () => {
   const url = ex.toDataURL('image/png');
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'bottel-design.png';
+  a.download = 'bottle-design.png';
   a.click();
 };
 
@@ -1150,7 +1150,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   render();
 });
 
-window.BottelCustomizer = {
+window.BottleCustomizer = {
   exportMeta() {
     return {
       bottleShape: state.bottleShape,

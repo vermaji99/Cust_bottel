@@ -12,12 +12,12 @@
   const formatEl = document.getElementById('exportFormat');
   const canvas = document.getElementById('mainCanvas');
   const state = {
-    lastDesignKey: localStorage.getItem('bottelLastDesign') || (cfg.prefill ? cfg.prefill.design_key : null),
+    lastDesignKey: localStorage.getItem('bottleLastDesign') || (cfg.prefill ? cfg.prefill.design_key : null),
   };
 
   function toast(message, type = 'success') {
-    if (window.Bottel && typeof window.Bottel.toast === 'function') {
-      window.Bottel.toast(message, type);
+    if (window.Bottle && typeof window.Bottle.toast === 'function') {
+      window.Bottle.toast(message, type);
     } else {
       alert(message);
     }
@@ -38,15 +38,15 @@
   }
 
   async function saveDesign() {
-    if (!window.BottelCustomizer || !canvas) return;
+    if (!window.BottleCustomizer || !canvas) return;
     try {
       saveBtn.disabled = true;
       saveBtn.innerText = 'Saving...';
-      window.BottelCustomizer.render?.();
+      window.BottleCustomizer.render?.();
       const format = (formatEl?.value || 'png').toLowerCase();
       const mime = format === 'jpg' ? 'image/jpeg' : 'image/png';
       const imageData = canvas.toDataURL(mime, 0.92);
-      const meta = window.BottelCustomizer.exportMeta();
+      const meta = window.BottleCustomizer.exportMeta();
       const res = await fetch(endpoints.save, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -60,7 +60,7 @@
       const design = json.design || {};
       state.lastDesignKey = design.design_key || state.lastDesignKey;
       if (state.lastDesignKey) {
-        localStorage.setItem('bottelLastDesign', state.lastDesignKey);
+        localStorage.setItem('bottleLastDesign', state.lastDesignKey);
       }
       updateReeditState();
       toast('Design saved successfully!');
@@ -89,7 +89,7 @@
         throw new Error(json.message || 'Design not found');
       }
       const meta = json.design.meta_json;
-      window.BottelCustomizer.importMeta(meta);
+      window.BottleCustomizer.importMeta(meta);
       toast('Design loaded. Happy editing!');
       setStatus(`Loaded design #${json.design.design_key || json.design.id}`);
       state.lastDesignKey = json.design.design_key;
@@ -102,7 +102,7 @@
 
   function initPrefill() {
     if (cfg.prefill && cfg.prefill.meta) {
-      window.BottelCustomizer.importMeta(cfg.prefill.meta);
+      window.BottleCustomizer.importMeta(cfg.prefill.meta);
       setStatus(`Loaded draft #${cfg.prefill.design_key}`);
     }
   }
