@@ -82,19 +82,10 @@ header#main-header.header-futuristic.scrolled {
         padding: 0 !important;
         overflow: visible !important;
     }
-
-    /* Ensure mobile menu classes don't affect desktop */
-    .nav-futuristic.nav-open,
-    .nav-futuristic.active {
-        display: flex !important;
-        position: static !important;
-        max-height: none !important;
-        padding: 0 !important;
-    }
 }
 
 .nav-link-futuristic {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.9) !important;
     font-weight: 500;
     font-size: 0.875rem;
     padding: 0;
@@ -104,77 +95,49 @@ header#main-header.header-futuristic.scrolled {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-family: "Space Grotesk", sans-serif;
-    display: flex;
+    display: flex !important;
     align-items: center;
     gap: 8px;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+@media (min-width: 1024px) {
+    .nav-link-futuristic {
+        font-size: 0.8rem;
+    }
 }
 
 .nav-link-futuristic i {
     font-size: 1.1rem;
-    display: inline-block;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
 }
 
 .nav-link-futuristic .nav-text {
-    display: inline-block;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-family: "Space Grotesk", sans-serif !important;
 }
 
-/* Desktop - Show both icon and text */
-@media (min-width: 1200px) {
-    .nav-link-futuristic .nav-text {
-        display: inline-block;
+/* Desktop - Show only text, hide icons */
+@media (min-width: 768px) {
+    .nav-link-futuristic i {
+        display: none !important;
     }
-}
 
-/* Tablet - Show only icons */
-@media (min-width: 768px) and (max-width: 1199px) {
     .nav-link-futuristic .nav-text {
-        display: none;
+        display: inline-block !important;
     }
 
     .nav-link-futuristic {
-        padding: 8px;
-        justify-content: center;
-    }
-
-    .nav-link-futuristic i {
-        font-size: 1.2rem;
-    }
-
-    /* Override: Show text in mobile menu when nav is open */
-    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
-    .nav-futuristic.active .nav-link-futuristic .nav-text {
-        display: inline-block !important;
-    }
-}
-
-/* CRITICAL: Mobile menu override - Force visibility of nav links */
-@media (max-width: 767px) {
-    /* Override any conflicting styles when menu is open */
-    .nav-futuristic.nav-open .nav-link-futuristic,
-    .nav-futuristic.active .nav-link-futuristic {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        min-height: 48px !important;
-        height: auto !important;
-        padding: 16px 20px !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        overflow: visible !important;
-        clip: auto !important;
-        clip-path: none !important;
-    }
-
-    /* Force icons and text visibility */
-    .nav-futuristic.nav-open .nav-link-futuristic i,
-    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
-    .nav-futuristic.active .nav-link-futuristic i,
-    .nav-futuristic.active .nav-link-futuristic .nav-text {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        color: rgba(255, 255, 255, 0.9) !important;
+        gap: 0;
     }
 }
 
@@ -210,6 +173,7 @@ header#main-header.header-futuristic.scrolled {
     gap: 12px;
     position: relative;
     z-index: 1100;
+    flex-shrink: 0;
 }
 
 /* === Icon Button === */
@@ -241,6 +205,11 @@ header#main-header.header-futuristic.scrolled {
 }
 
 .icon-btn-futuristic.cart-icon {
+    background: transparent !important;
+    border: none !important;
+}
+
+.icon-btn-futuristic.profile-icon {
     background: transparent !important;
     border: none !important;
 }
@@ -345,284 +314,220 @@ header#main-header.header-futuristic.scrolled {
     color: #ff6348;
 }
 
-/* === Menu Toggle (Mobile) === */
-.menu-toggle-futuristic {
+/* === Hamburger Button === */
+.hamburger-btn {
     display: none;
-    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
     width: 48px;
     height: 48px;
-    align-items: center;
-    justify-content: center;
+    background: transparent;
+    border: none;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    padding: 0;
+    z-index: 10003;
     transition: all 0.3s ease;
-    color: white;
     position: relative;
-    z-index: 100001;
-    pointer-events: auto;
-    -webkit-tap-highlight-color: transparent;
-    user-select: none;
-    -webkit-user-select: none;
+    margin: 0;
     flex-shrink: 0;
 }
 
-.menu-toggle-futuristic:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
+.hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.menu-toggle-futuristic:active {
-    transform: scale(0.95);
+.hamburger-btn:active {
+    background: rgba(255, 255, 255, 0.15);
 }
 
-.menu-toggle-futuristic i {
-    font-size: 20px;
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    pointer-events: none;
-    position: relative;
+.hamburger-line {
+    width: 24px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger-btn.active .hamburger-line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* === Mobile Navigation Popup === */
+.mobile-nav-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 10002 !important;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-nav-popup.active {
     display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
-/* Show menu toggle on mobile */
-@media (max-width: 767px) {
-    .menu-toggle-futuristic {
-        display: flex !important;
-    }
+.mobile-nav-popup-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    background: rgba(11, 12, 16, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    transform: translateY(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+    min-height: 100vh;
 }
 
-/* === Mobile Menu Styles === */
+.mobile-nav-popup.active .mobile-nav-popup-content {
+    transform: translateY(0);
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 4%;
+    border-bottom: 1px solid rgba(0, 188, 212, 0.2);
+    background: rgba(11, 12, 16, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 10003;
+}
+
+.mobile-nav-header h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: "Space Grotesk", sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.mobile-nav-close {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.mobile-nav-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.mobile-nav-link-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.mobile-nav-link-item i {
+    font-size: 1.3rem;
+    width: 28px;
+    text-align: center;
+    color: rgba(0, 188, 212, 0.8);
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-link-item span {
+    flex: 1;
+    letter-spacing: 0.05em;
+}
+
+.mobile-nav-link-item:hover {
+    background: rgba(0, 188, 212, 0.1);
+    color: #ffffff;
+    border-left-color: #00bcd4;
+    padding-left: 28px;
+}
+
+.mobile-nav-link-item:hover i {
+    color: #00bcd4;
+    transform: scale(1.1);
+}
+
+.mobile-nav-link-item.active {
+    background: rgba(0, 188, 212, 0.15);
+    color: #00bcd4;
+    border-left-color: #00bcd4;
+    font-weight: 600;
+}
+
+.mobile-nav-link-item.active i {
+    color: #00bcd4;
+}
+
+/* === Mobile Styles === */
 @media (max-width: 767px) {
     header#main-header.header-futuristic {
         padding: 20px 4%;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-        box-sizing: border-box !important;
     }
 
     header#main-header.header-futuristic.scrolled {
         padding: 15px 4%;
     }
 
-    /* Mobile Navigation Menu - CLOSED STATE */
-    .nav-futuristic {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-width: 100vw;
-        background: rgba(11, 12, 16, 0.98);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-            opacity 0.3s ease, visibility 0.3s ease, padding 0.3s ease;
-        z-index: 99999;
-    }
-
-    /* DISABLE transitions when menu is open */
-    .nav-futuristic.nav-open,
-    .nav-futuristic.active {
-        transition: none !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-        flex-direction: column;
-        gap: 0;
-        padding: 0;
-        opacity: 0;
-        visibility: hidden;
-        display: none;
-        margin: 0;
-        box-sizing: border-box;
-    }
-
-    /* Ensure nav links are hidden when menu is closed */
-    .nav-futuristic:not(.nav-open):not(.active) .nav-link-futuristic {
-        display: none !important;
-    }
-
-    /* Mobile Navigation Menu - OPEN STATE */
-    .nav-futuristic.nav-open,
-    .nav-futuristic.active {
-        max-height: calc(100vh - 70px) !important;
-        min-height: 200px !important;
-        padding: 20px 0 !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: flex !important;
-        flex-direction: column !important;
-        position: fixed !important;
-        top: 70px !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-        z-index: 99999 !important;
-        overflow-y: auto !important;
-        overflow-x: visible !important;
-        background: rgba(11, 12, 16, 0.98) !important;
-        margin: 0 !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
-        transform: translateZ(0) !important;
-        -webkit-transform: translateZ(0) !important;
-        align-items: stretch !important;
-        justify-content: flex-start !important;
-        transition: none !important;
-    }
-
-    /* CRITICAL: Force nav links to be visible when menu is open */
-    .nav-futuristic.nav-open .nav-link-futuristic,
-    .nav-futuristic.active .nav-link-futuristic {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        min-height: 48px !important;
-        height: auto !important;
-        padding: 16px 20px !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        overflow: visible !important;
-        clip: auto !important;
-        clip-path: none !important;
-    }
-
-    /* Force icons and text visibility */
-    .nav-futuristic.nav-open .nav-link-futuristic i,
-    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
-    .nav-futuristic.active .nav-link-futuristic i,
-    .nav-futuristic.active .nav-link-futuristic .nav-text {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    .nav-futuristic.nav-open .nav-link-futuristic,
-    .nav-futuristic.active .nav-link-futuristic {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        opacity: 1 !important;
-        transform: translateY(0);
-        visibility: visible !important;
-        display: flex !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    .nav-futuristic.nav-open .nav-link-futuristic i,
-    .nav-futuristic.nav-open .nav-link-futuristic .nav-text {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    .nav-futuristic.nav-open .nav-link-futuristic:last-child,
-    .nav-futuristic.active .nav-link-futuristic:last-child {
-        border-bottom: none;
-    }
-
-    /* Navigation Links in Mobile Menu - FORCE VISIBILITY */
-    .nav-link-futuristic {
-        padding: 16px 20px !important;
-        border-radius: 0;
-        width: 100% !important;
-        min-width: 100% !important;
-        font-size: 0.9rem !important;
-        justify-content: flex-start !important;
-        align-items: center !important;
-        gap: 12px !important;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        border-bottom: 1px solid transparent;
-        transition: all 0.3s ease;
-        display: flex !important;
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        visibility: visible !important;
-        text-decoration: none !important;
-        flex-direction: row !important;
-        position: relative !important;
-        height: auto !important;
-        min-height: 48px !important;
-        overflow: visible !important;
-        clip: auto !important;
-        clip-path: none !important;
-    }
-
-    .nav-futuristic.nav-open .nav-link-futuristic,
-    .nav-futuristic.active .nav-link-futuristic {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        visibility: visible !important;
-        display: flex !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        padding: 16px 20px !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        min-height: 48px !important;
-        height: auto !important;
-        overflow: visible !important;
-        clip: auto !important;
-        clip-path: none !important;
-    }
-
-    .nav-link-futuristic i {
-        font-size: 1.1rem !important;
-        width: 24px !important;
-        min-width: 24px !important;
-        text-align: center !important;
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        flex-shrink: 0 !important;
-    }
-
-    .nav-link-futuristic .nav-text {
-        display: inline-block !important;
-        font-weight: 500 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-        margin-left: 12px !important;
-    }
-
-    .nav-futuristic.nav-open .nav-link-futuristic i,
-    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
-    .nav-futuristic.active .nav-link-futuristic i,
-    .nav-futuristic.active .nav-link-futuristic .nav-text {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        color: rgba(255, 255, 255, 0.9) !important;
-    }
-
-    .nav-link-futuristic.active {
-        color: #fff;
-        font-weight: 600;
-        border-bottom: 2px solid #00bcd4;
-        background: rgba(0, 188, 212, 0.05);
-    }
-
-    .nav-link-futuristic:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: rgba(255, 255, 255, 0.9);
-    }
-
-    .nav-link-futuristic.active:hover {
-        background: rgba(0, 188, 212, 0.1);
-    }
-
     .profile-dropdown-menu {
         right: 4%;
         left: auto;
         width: 200px;
+    }
+
+    /* Show hamburger button on mobile */
+    .hamburger-btn {
+        display: flex;
     }
 }
 
@@ -658,70 +563,39 @@ header#main-header.header-futuristic.scrolled {
         font-size: clamp(0.9rem, 3vw, 1.1rem);
     }
 
-    .menu-toggle-futuristic {
-        width: clamp(36px, 8vw, 42px);
-        height: clamp(36px, 8vw, 42px);
-    }
-
-    .menu-toggle-futuristic i {
-        font-size: clamp(18px, 4vw, 20px);
-    }
-
-    .nav-futuristic {
-        top: 0 !important;
-        margin-top: 60px !important;
-    }
-
-    .nav-futuristic.nav-open,
-    .nav-futuristic.active {
-        padding: 16px 0 !important;
-        top: 60px !important;
-        position: fixed !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-        z-index: 99999 !important;
-        max-height: calc(100vh - 60px) !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: flex !important;
-        margin-top: 0 !important;
-        background: rgba(11, 12, 16, 0.98) !important;
-    }
-
-    /* Force nav links visibility on very small screens */
-    .nav-link-futuristic {
-        font-size: clamp(0.8rem, 3vw, 0.9rem) !important;
-        padding: 14px 16px !important;
-        display: flex !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        width: 100% !important;
-        min-height: 48px !important;
-    }
-
-    .nav-futuristic.nav-open .nav-link-futuristic,
-    .nav-futuristic.active .nav-link-futuristic {
-        display: flex !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    .nav-futuristic.nav-open .nav-link-futuristic i,
-    .nav-futuristic.nav-open .nav-link-futuristic .nav-text,
-    .nav-futuristic.active .nav-link-futuristic i,
-    .nav-futuristic.active .nav-link-futuristic .nav-text {
-        display: inline-block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-
     .profile-dropdown-menu {
         right: 3%;
         left: 3%;
         width: auto;
         min-width: 180px;
+    }
+
+    .hamburger-btn {
+        width: clamp(36px, 8vw, 42px);
+        height: clamp(36px, 8vw, 42px);
+        margin: 0;
+    }
+
+    .hamburger-line {
+        width: 20px;
+    }
+
+    .mobile-nav-header {
+        padding: 16px 3%;
+    }
+
+    .mobile-nav-header h3 {
+        font-size: 1.3rem;
+    }
+
+    .mobile-nav-link-item {
+        padding: 16px 20px;
+        font-size: 1rem;
+    }
+
+    .mobile-nav-link-item i {
+        font-size: 1.2rem;
+        width: 24px;
     }
 }
 
@@ -740,8 +614,32 @@ header#main-header.header-futuristic.scrolled {
         height: 32px;
     }
 
-    .menu-toggle-futuristic {
+    .hamburger-btn {
         width: 32px;
         height: 32px;
+        margin: 0;
+    }
+
+    .hamburger-line {
+        width: 18px;
+    }
+
+    .mobile-nav-header {
+        padding: 14px 2%;
+    }
+
+    .mobile-nav-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .mobile-nav-link-item {
+        padding: 14px 16px;
+        font-size: 0.95rem;
+        gap: 12px;
+    }
+
+    .mobile-nav-link-item i {
+        font-size: 1.1rem;
+        width: 20px;
     }
 }

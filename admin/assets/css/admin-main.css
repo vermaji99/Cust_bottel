@@ -22,18 +22,99 @@
   padding: 0;
 }
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
 }
 
 /* Admin Container Layout */
 .admin-container {
   display: flex;
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 10001;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mobile-menu-toggle:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+}
+
+.mobile-menu-toggle.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.hamburger-line {
+  width: 22px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Sidebar */
@@ -46,7 +127,8 @@ body {
   position: fixed;
   height: 100vh;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 10000;
+  transition: transform 0.3s ease;
 }
 
 .sidebar-logo {
@@ -148,6 +230,9 @@ body {
   margin-left: 260px;
   display: flex;
   flex-direction: column;
+  width: calc(100% - 260px);
+  max-width: calc(100% - 260px);
+  overflow-x: hidden;
 }
 
 /* Header */
@@ -206,6 +291,10 @@ body {
   flex: 1;
   padding: 30px;
   overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Cards */
@@ -692,29 +781,59 @@ textarea.form-control {
 }
 
 @media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  .sidebar-overlay {
+    display: block;
+  }
+  
   .admin-container {
     flex-direction: column;
   }
   
   .admin-sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    max-height: none;
+    width: 280px;
+    max-width: 85vw;
+    transform: translateX(-100%);
+    left: 0;
+    top: 0;
+    transition: transform 0.3s ease;
+  }
+  
+  .admin-sidebar.active {
+    transform: translateX(0);
   }
   
   .admin-main {
     margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .admin-content {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
   }
   
   .admin-header {
     padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);
+    padding-left: 70px;
     flex-wrap: wrap;
     gap: clamp(0.75rem, 2vw, 1rem);
+    position: relative;
+    z-index: 100;
   }
   
   .page-title {
     font-size: clamp(1.25rem, 4vw, 1.5rem);
+  }
+  
+  .page-subtitle {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
   }
   
   .admin-content {
@@ -730,8 +849,16 @@ textarea.form-control {
     padding: clamp(1.25rem, 3vw, 1.5rem);
   }
   
+  .stat-card i {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+  }
+  
   .stat-card h3 {
     font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+  
+  .stat-card p {
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
   }
   
   .filter-bar {
@@ -748,20 +875,44 @@ textarea.form-control {
   .table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin: 0 -1rem;
+    padding: 0 1rem;
+    width: calc(100% + 2rem);
+    max-width: calc(100% + 2rem);
   }
   
   table {
-    font-size: clamp(0.85rem, 2vw, 0.9rem);
-    min-width: 600px;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    min-width: 700px;
+    width: 100%;
   }
   
-  th, td {
+  th {
     padding: clamp(0.75rem, 2vw, 0.875rem) clamp(0.5rem, 1.5vw, 0.75rem);
+    font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+    white-space: nowrap;
+  }
+  
+  td {
+    padding: clamp(0.75rem, 2vw, 0.875rem) clamp(0.5rem, 1.5vw, 0.75rem);
+    white-space: nowrap;
   }
   
   .btn {
     padding: clamp(0.75rem, 2vw, 0.875rem) clamp(1rem, 3vw, 1.5rem);
     font-size: clamp(0.875rem, 2vw, 1rem);
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .btn-sm {
+    padding: clamp(0.625rem, 1.8vw, 0.75rem) clamp(0.875rem, 2.5vw, 1rem);
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  }
+  
+  .card {
+    padding: clamp(1rem, 3vw, 1.25rem);
+    margin-bottom: clamp(1rem, 3vw, 1.25rem);
   }
   
   .card-header {
@@ -769,35 +920,197 @@ textarea.form-control {
     align-items: flex-start;
     gap: clamp(0.75rem, 2vw, 1rem);
   }
+  
+  .card-title {
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+  }
+  
+  .form-group {
+    margin-bottom: clamp(1rem, 3vw, 1.25rem);
+  }
+  
+  .form-control {
+    padding: clamp(10px, 2.5vw, 12px) clamp(12px, 3vw, 15px);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+  
+  .actions {
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  }
+  
+  .action-btn {
+    width: auto;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+  }
+  
+  .pagination {
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  }
+  
+  .pagination a,
+  .pagination span {
+    min-width: clamp(36px, 8vw, 40px);
+    height: clamp(36px, 8vw, 40px);
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
+  }
+  
+  .img-preview {
+    width: clamp(60px, 15vw, 80px);
+    height: clamp(60px, 15vw, 80px);
+  }
+  
+  .img-thumb {
+    width: clamp(45px, 12vw, 60px);
+    height: clamp(45px, 12vw, 60px);
+  }
 }
 
 @media (max-width: 480px) {
+  .mobile-menu-toggle {
+    width: 40px;
+    height: 40px;
+    top: 12px;
+    left: 12px;
+  }
+  
+  .hamburger-line {
+    width: 20px;
+  }
+  
+  .admin-sidebar {
+    width: 260px;
+    max-width: 90vw;
+  }
+  
   .admin-header {
-    padding: 1rem;
+    padding: clamp(0.875rem, 2.5vw, 1rem);
+    padding-left: 65px;
   }
   
   .admin-content {
-    padding: 1rem;
+    padding: clamp(0.875rem, 2.5vw, 1rem);
+  }
+  
+  .sidebar-logo {
+    padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.25rem);
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+  }
+  
+  .sidebar-menu {
+    padding: clamp(0.75rem, 2vw, 1rem) 0;
   }
   
   .sidebar-menu a {
     padding: clamp(0.75rem, 2vw, 0.875rem) clamp(1rem, 2.5vw, 1.25rem);
     font-size: clamp(0.875rem, 2vw, 0.95rem);
+    gap: clamp(8px, 2vw, 12px);
+  }
+  
+  .sidebar-footer {
+    padding: clamp(1rem, 3vw, 1.25rem);
+  }
+  
+  .admin-info {
+    padding: clamp(0.75rem, 2vw, 1rem);
+  }
+  
+  .logout-btn {
+    padding: clamp(0.75rem, 2vw, 0.875rem);
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
+  }
+  
+  .stat-card {
+    padding: clamp(1rem, 3vw, 1.25rem);
   }
   
   .stat-card i {
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
+  }
+  
+  .stat-card h3 {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    margin: clamp(0.5rem, 1.5vw, 0.75rem) 0;
+  }
+  
+  .stat-card p {
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+  }
+  
+  .card {
+    padding: clamp(0.875rem, 2.5vw, 1rem);
+  }
+  
+  .card-title {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+  }
+  
+  table {
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    min-width: 650px;
+  }
+  
+  th {
+    padding: clamp(0.625rem, 1.8vw, 0.75rem) clamp(0.5rem, 1.5vw, 0.625rem);
+    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+  }
+  
+  td {
+    padding: clamp(0.625rem, 1.8vw, 0.75rem) clamp(0.5rem, 1.5vw, 0.625rem);
+  }
+  
+  .btn {
+    padding: clamp(0.625rem, 2vw, 0.75rem) clamp(0.875rem, 3vw, 1.25rem);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+  }
+  
+  .form-control {
+    padding: clamp(8px, 2.5vw, 10px) clamp(10px, 2.5vw, 12px);
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
   }
   
   .actions {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: clamp(0.5rem, 1.5vw, 0.625rem);
   }
   
   .action-btn {
-    width: 100%;
-    height: auto;
-    padding: 0.5rem;
+    width: auto;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  }
+  
+  .badge {
+    padding: clamp(3px, 1vw, 4px) clamp(8px, 2vw, 12px);
+    font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+  }
+  
+  .alert {
+    padding: clamp(10px, 2.5vw, 12px) clamp(12px, 3vw, 15px);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+  }
+  
+  .pagination a,
+  .pagination span {
+    min-width: clamp(32px, 8vw, 36px);
+    height: clamp(32px, 8vw, 36px);
+    padding: 0 clamp(8px, 2vw, 10px);
+    font-size: clamp(0.8rem, 2vw, 0.85rem);
+  }
+  
+  .empty-state {
+    padding: clamp(40px, 10vw, 60px) clamp(15px, 4vw, 20px);
+  }
+  
+  .empty-state i {
+    font-size: clamp(3rem, 10vw, 4rem);
+    margin-bottom: clamp(15px, 4vw, 20px);
   }
 }
 
@@ -838,5 +1151,80 @@ textarea.form-control {
 
 .empty-state p {
   color: var(--text-muted);
+}
+
+/* Prevent body scroll when mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Additional responsive improvements */
+@media (max-width: 1024px) {
+  .admin-content {
+    padding: clamp(1.25rem, 3vw, 1.5rem);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: clamp(0.875rem, 2vw, 1rem);
+  }
+  
+  .card-header {
+    flex-wrap: wrap;
+  }
+  
+  .filter-bar {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .admin-sidebar {
+    width: clamp(220px, 25vw, 240px);
+  }
+  
+  .admin-main {
+    margin-left: clamp(220px, 25vw, 240px);
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  
+  table {
+    min-width: 800px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .mobile-menu-toggle {
+    width: 36px;
+    height: 36px;
+    top: 10px;
+    left: 10px;
+  }
+  
+  .hamburger-line {
+    width: 18px;
+  }
+  
+  .admin-header {
+    padding-left: 55px;
+  }
+  
+  .admin-sidebar {
+    width: 240px;
+    max-width: 95vw;
+  }
+  
+  table {
+    min-width: 600px;
+    font-size: 0.7rem;
+  }
+  
+  th, td {
+    padding: 0.5rem 0.4rem;
+  }
 }
 

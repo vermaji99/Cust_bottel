@@ -38,6 +38,33 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       background: #0c0c0c;
       color: #f0f0f0;
       padding-top: 0;
+      font-size: 14px;
+    }
+    
+    /* Apply home page styles for laptop/desktop only */
+    @media (min-width: 1024px) {
+      html {
+        font-size: 16px;
+      }
+      
+      body {
+        font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        color: #f5f5f5;
+        background: #0B0C10;
+        line-height: 1.6;
+        font-size: 16px;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      }
+      
+      h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        margin-bottom: 3rem;
+      }
     }
     a { text-decoration: none; color: inherit; }
     img { max-width: 100%; display: block; }
@@ -158,54 +185,116 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       }
     }
 
-    /* Filter Toggle Button for Mobile */
-    .filter-toggle-btn {
+    /* Filter and Sort Row (Mobile Only) */
+    .filter-sort-row {
       display: none;
       width: 100%;
-      padding: clamp(10px, 2vw, 12px) clamp(12px, 3vw, 16px);
-      background: linear-gradient(135deg, #00bcd4, #007bff);
-      color: #fff;
-      border: none;
-      border-radius: clamp(6px, 1.5vw, 8px);
-      font-weight: 600;
-      font-size: clamp(0.85rem, 2vw, 0.95rem);
-      cursor: pointer;
-      margin-bottom: 0;
-      margin-top: 0;
       align-items: center;
-      justify-content: center;
-      gap: clamp(6px, 1.5vw, 8px);
-      transition: all 0.3s;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 2px 8px rgba(0, 188, 212, 0.3);
+      gap: 12px;
+      justify-content: space-between;
     }
     
-    @media (max-width: 480px) {
-      .filter-toggle-btn {
-        padding: clamp(8px, 1.5vw, 10px) clamp(10px, 2.5vw, 14px);
-        font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+    @media (max-width: 1023px) {
+      .filter-sort-row {
+        display: flex;
       }
     }
     
+    /* Filter Toggle Button for Mobile */
+    .filter-toggle-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background: linear-gradient(135deg, #00bcd4, #007bff);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 2px 8px rgba(0, 188, 212, 0.3);
+      flex-shrink: 0;
+    }
+    
     .filter-toggle-btn:hover {
-      transform: translateY(-2px);
+      transform: translateY(-2px) scale(1.05);
       box-shadow: 0 4px 12px rgba(0, 188, 212, 0.4);
     }
     
+    .filter-toggle-btn:active {
+      transform: translateY(0) scale(0.95);
+    }
+    
     .filter-toggle-btn i {
-      font-size: 1.1rem;
-      transition: transform 0.3s;
+      font-size: 1rem;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .filter-toggle-btn.active i {
       transform: rotate(180deg);
     }
     
-    @media (max-width: 1023px) {
-      .filter-toggle-btn {
-        display: flex;
-      }
+    /* Sort Wrapper Mobile */
+    .sort-wrapper-mobile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .sort-wrapper-mobile span {
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
+      color: #999;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    
+    .sort-wrapper-mobile .sort-select {
+      flex: 0 0 auto;
+      min-width: 0;
+      max-width: 150px;
+      width: 150px;
+      padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px);
+      border-radius: clamp(6px, 1.5vw, 8px);
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #fff;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 12px;
+      padding-right: 36px;
+    }
+    
+    .sort-wrapper-mobile .sort-select:hover {
+      border-color: #00bcd4;
+      background-color: #1f1f1f;
+    }
+    
+    .sort-wrapper-mobile .sort-select:focus {
+      outline: none;
+      border-color: #00bcd4;
+      box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+      background-color: #1f1f1f;
+    }
+    
+    .sort-wrapper-mobile .sort-select option {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 8px 12px;
+      max-width: 200px;
+      width: auto;
     }
 
     /* Filter Sidebar */
@@ -221,6 +310,24 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+    
+    @media (min-width: 1024px) {
+      .filter-sidebar h2 {
+        font-size: 1.05rem;
+      }
+      
+      .filter-group h3 {
+        font-size: 0.85rem;
+      }
+      
+      .filter-label span {
+        font-size: 0.8rem;
+      }
+      
+      .price-display {
+        font-size: 0.8rem;
+      }
     }
     
     @media (max-width: 1023px) {
@@ -408,6 +515,12 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       font-size: clamp(0.75rem, 2vw, 0.875rem);
       color: #999;
     }
+    
+    @media (min-width: 1024px) {
+      .results-count {
+        font-size: 0.8rem;
+      }
+    }
     .sort-wrapper {
       display: flex;
       align-items: center;
@@ -431,49 +544,74 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       color: #fff;
       font-size: clamp(0.75rem, 2vw, 0.875rem);
       cursor: pointer;
-      max-width: 100%;
+      max-width: 180px;
+      width: 180px;
       box-sizing: border-box;
-      width: auto;
       min-width: 0;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       position: relative;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 12px;
+      padding-right: 36px;
+    }
+    
+    @media (min-width: 1024px) {
+      .sort-select {
+        font-size: 0.8rem;
+      }
+      
+      .sort-wrapper span {
+        font-size: 0.8rem;
+      }
+    }
+    
+    .sort-select:hover {
+      border-color: #00bcd4;
+      background-color: #1f1f1f;
     }
     
     @media (max-width: 768px) {
       .sort-select {
-        max-width: 85%;
-        width: auto;
-        flex: 0 1 auto;
+        max-width: 160px;
+        width: 160px;
+        flex: 0 0 auto;
       }
     }
     
     @media (max-width: 480px) {
       .sort-select {
-        max-width: 100%;
-        width: 100%;
-        flex: none;
+        max-width: 140px;
+        width: 140px;
+        flex: 0 0 auto;
       }
-    }
-    
-    .sort-select:focus {
-      outline: none;
-      border-color: #00bcd4;
     }
     
     /* Ensure dropdown options don't overflow */
     .sort-select option {
-      max-width: 100%;
+      max-width: 200px;
+      width: auto;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       padding: 8px 12px;
       background: #1a1a1a;
       color: #fff;
+    }
+    
+    /* Hide desktop sort wrapper on mobile */
+    @media (max-width: 1023px) {
+      .sort-wrapper {
+        display: none;
+      }
     }
     
     /* For mobile devices - reduce dropdown width */
@@ -486,10 +624,10 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       }
       
       .sort-select {
-        max-width: 75%;
-        width: auto;
+        max-width: 160px;
+        width: 160px;
         min-width: 0;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         box-sizing: border-box;
       }
     }
@@ -512,10 +650,10 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       }
       
       .sort-select {
-        max-width: 70%;
-        width: auto;
+        max-width: 140px;
+        width: 140px;
         min-width: 0;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         box-sizing: border-box;
       }
     }
@@ -530,14 +668,11 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       }
       
       .sort-select {
-        max-width: 65%;
+        max-width: 120px;
+        width: 120px;
         font-size: clamp(0.65rem, 1.6vw, 0.75rem);
         padding: clamp(4px, 1vw, 5px) clamp(6px, 1.5vw, 8px);
       }
-    }
-    .sort-select:focus {
-      outline: none;
-      border-color: #00bcd4;
     }
 
     /* Active Filters */
@@ -761,6 +896,12 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       color: #999;
       margin-bottom: clamp(3px, 0.8vw, 4px);
     }
+    
+    @media (min-width: 1024px) {
+      .product-category {
+        font-size: 0.75rem;
+      }
+    }
     .product-name {
       font-weight: 600;
       color: #fff;
@@ -784,10 +925,23 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
       font-size: clamp(1rem, 2.5vw, 1.125rem);
       color: #00bcd4;
     }
+    
+    @media (min-width: 1024px) {
+      .price-current {
+        font-size: 0.95rem;
+      }
+    }
+    
     .price-original {
       font-size: clamp(0.75rem, 2vw, 0.875rem);
       color: #666;
       text-decoration: line-through;
+    }
+    
+    @media (min-width: 1024px) {
+      .price-original {
+        font-size: 0.7rem;
+      }
     }
     .product-rating {
       display: flex;
@@ -1025,10 +1179,25 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
 
 <!-- Filter Toggle Button Container (Mobile Only) -->
 <div class="filter-button-container">
-  <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilterSidebar()">
-    <i class="fas fa-filter"></i>
-    <span>Filter Options</span>
-  </button>
+  <div class="filter-sort-row">
+    <div class="sort-wrapper-mobile">
+      <span>Sort by:</span>
+      <select class="sort-select" id="sortSelectMobile" onchange="updateSort()">
+        <?php
+        $selectedSort = $_GET['sort'] ?? '';
+        ?>
+        <option value="" <?= $selectedSort === '' ? 'selected' : '' ?>>Default Sorting</option>
+        <option value="price_asc" <?= $selectedSort === 'price_asc' ? 'selected' : '' ?>>Price: Low to High</option>
+        <option value="price_desc" <?= $selectedSort === 'price_desc' ? 'selected' : '' ?>>Price: High to Low</option>
+        <option value="rating_desc" <?= $selectedSort === 'rating_desc' ? 'selected' : '' ?>>Highest Rated</option>
+        <option value="rating_asc" <?= $selectedSort === 'rating_asc' ? 'selected' : '' ?>>Lowest Rated</option>
+        <option value="newest" <?= $selectedSort === 'newest' ? 'selected' : '' ?>>Newest Arrivals</option>
+      </select>
+    </div>
+    <button class="filter-toggle-btn" id="filterToggleBtn" onclick="toggleFilterSidebar()">
+      <i class="fas fa-filter"></i>
+    </button>
+  </div>
 </div>
 
 <!-- Main Container -->
@@ -1257,7 +1426,6 @@ $maxPrice = $priceRange['max_price'] ?? 1000;
           ?>
           <p class="results-count" id="resultsCount">Showing 1-<?= $totalFilteredProducts ?> of <?= $totalFilteredProducts ?> results</p>
           <div class="sort-wrapper">
-            
             <span>Sort by:</span>
             <select class="sort-select" id="sortSelect" onchange="updateSort()" style="max-width: 100%; width: 100%;">
               <?php
@@ -1641,6 +1809,26 @@ function updateFilters() {
 }
 
 function updateSort() {
+  // Sync both sort selects if they exist
+  const sortSelect = document.getElementById('sortSelect');
+  const sortSelectMobile = document.getElementById('sortSelectMobile');
+  
+  if (sortSelect && sortSelectMobile) {
+    // Sync the one that was changed to the other
+    if (event && event.target) {
+      if (event.target.id === 'sortSelectMobile') {
+        sortSelect.value = sortSelectMobile.value;
+      } else {
+        sortSelectMobile.value = sortSelect.value;
+      }
+    } else {
+      // Fallback: sync mobile to desktop
+      if (sortSelectMobile) {
+        sortSelectMobile.value = sortSelect.value;
+      }
+    }
+  }
+  
   updateFilters();
 }
 
@@ -1670,6 +1858,26 @@ function filterByRating(rating) {
 
 // Initialize price slider
 updatePriceSlider();
+
+// Sync sort selects on page load
+(function() {
+  const sortSelect = document.getElementById('sortSelect');
+  const sortSelectMobile = document.getElementById('sortSelectMobile');
+  
+  if (sortSelect && sortSelectMobile) {
+    // Sync mobile to desktop on load
+    sortSelectMobile.value = sortSelect.value;
+    
+    // Keep them in sync
+    sortSelect.addEventListener('change', function() {
+      sortSelectMobile.value = this.value;
+    });
+    
+    sortSelectMobile.addEventListener('change', function() {
+      sortSelect.value = this.value;
+    });
+  }
+})();
 
 // Fix select dropdown width on mobile - ensure options don't overflow screen
 (function() {

@@ -19,7 +19,8 @@ $wishlistCount = $isLoggedIn ? wishlist_count($currentUser['id']) : 0;
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/navbar.css"> 
+    <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/menu-toggle.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"> 
 
@@ -1703,6 +1704,7 @@ include __DIR__ . '/includes/navbar.php';
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script src="assets/js/app.js" defer></script>
 <script src="assets/js/navbar.js" defer></script>
+<script src="assets/js/menu-toggle.js" defer></script>
 
 <script>
 // Critical: Prevent navbar layout shift on page load

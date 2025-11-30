@@ -144,6 +144,127 @@ if (isset($_GET['edit'])) {
     <title><?= $editSlide ? 'Edit' : 'Manage' ?> Hero Slides | Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/admin-main.css">
+    <script src="assets/js/admin.js" defer></script>
+    <style>
+        /* Hero Slides Page Specific Styles */
+        .content {
+            padding: 0;
+        }
+        
+        .content-header {
+            margin-bottom: 20px;
+        }
+        
+        .content-header h1 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .content-header p {
+            color: var(--text-secondary);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+        }
+        
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+        
+        .table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: collapse;
+        }
+        
+        .table img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+            }
+            
+            .table-responsive {
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+            
+            .table {
+                font-size: clamp(0.8rem, 2vw, 0.9rem);
+                min-width: 700px;
+            }
+            
+            .table th,
+            .table td {
+                padding: clamp(0.75rem, 2vw, 1rem) clamp(0.5rem, 1.5vw, 0.75rem);
+            }
+            
+            .table td img {
+                width: clamp(80px, 20vw, 120px);
+                height: clamp(40px, 10vw, 60px);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .table {
+                min-width: 600px;
+                font-size: 0.75rem;
+            }
+            
+            .table td img {
+                width: 60px;
+                height: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -151,7 +272,7 @@ if (isset($_GET['edit'])) {
         <div class="admin-main">
             <?= admin_header('Hero Slides Management', 'Manage hero section background images') ?>
             
-            <div class="content">
+            <div class="admin-content">
     <div class="content-header">
         <h1><i class="fas fa-images"></i> Hero Slides Management</h1>
         <p>Manage hero section background images. Recommended size: <strong>1920×1080px</strong> (minimum: 1600×600px)</p>
@@ -191,12 +312,12 @@ if (isset($_GET['edit'])) {
                 <?php if ($editSlide && $editSlide['image']): ?>
                     <div style="margin-bottom: 10px;">
                         <img src="../admin/uploads/<?= htmlspecialchars($editSlide['image']) ?>" 
-                             alt="Current" style="max-width: 300px; height: auto; border-radius: 8px; border: 1px solid #ddd;">
-                        <p style="color: #666; font-size: 0.9rem; margin-top: 5px;">Current image</p>
+                             alt="Current" style="max-width: 100%; width: clamp(200px, 50vw, 300px); height: auto; border-radius: 8px; border: 1px solid #ddd;">
+                        <p style="color: #666; font-size: clamp(0.8rem, 2vw, 0.9rem); margin-top: 5px;">Current image</p>
                     </div>
                 <?php endif; ?>
-                <input type="file" name="image" accept="image/jpeg,image/jpg,image/png,image/webp" <?= !$editSlide ? 'required' : '' ?>>
-                <small style="color: #666; display: block; margin-top: 5px;">
+                <input type="file" name="image" accept="image/jpeg,image/jpg,image/png,image/webp" class="form-control" <?= !$editSlide ? 'required' : '' ?>>
+                <small style="color: #666; display: block; margin-top: 5px; font-size: clamp(0.8rem, 2vw, 0.85rem);">
                     <strong>Recommended:</strong> 1920×1080px (16:9 ratio)<br>
                     <strong>Minimum:</strong> 1600×600px<br>
                     <strong>Max size:</strong> 5MB | Formats: JPG, PNG, WebP
@@ -253,7 +374,7 @@ if (isset($_GET['edit'])) {
                                 <td>
                                     <img src="../admin/uploads/<?= htmlspecialchars($slide['image']) ?>" 
                                          alt="Preview" 
-                                         style="width: 120px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                         style="width: clamp(80px, 20vw, 120px); height: clamp(40px, 10vw, 60px); object-fit: cover; border-radius: 4px;">
                                 </td>
                                 <td><?= htmlspecialchars($slide['title'] ?: 'Untitled') ?></td>
                                 <td><small><?= htmlspecialchars($slide['image']) ?></small></td>
@@ -269,7 +390,7 @@ if (isset($_GET['edit'])) {
                                     </form>
                                 </td>
                                 <td>
-                                    <div class="action-buttons" style="display: flex; gap: 5px; align-items: center;">
+                                    <div class="action-buttons">
                                         <a href="?edit=<?= $slide['id'] ?>" class="btn btn-sm btn-primary" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>

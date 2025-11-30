@@ -77,8 +77,5 @@ function isActive($page, $currentPage) {
                 <i class="fas fa-user"></i>
             </a>
         <?php endif; ?>
-        <div class="menu-toggle-futuristic" id="menu-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
     </div>
 </header>

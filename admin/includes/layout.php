@@ -17,14 +17,20 @@ function admin_sidebar(string $activePage = ''): string {
         ['icon' => 'cog', 'label' => 'Settings', 'link' => 'settings.php', 'key' => 'settings'],
     ];
     
-    $html = '<div class="admin-sidebar">';
+    $html = '<button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle Menu">';
+    $html .= '<span class="hamburger-line"></span>';
+    $html .= '<span class="hamburger-line"></span>';
+    $html .= '<span class="hamburger-line"></span>';
+    $html .= '</button>';
+    $html .= '<div class="sidebar-overlay" id="sidebarOverlay"></div>';
+    $html .= '<div class="admin-sidebar" id="adminSidebar">';
     $html .= '<div class="sidebar-logo">🧴 Bottle Admin</div>';
     $html .= '<ul class="sidebar-menu">';
     
     foreach ($menuItems as $item) {
         $active = ($activePage === $item['key']) ? 'active' : '';
         $html .= sprintf(
-            '<li><a href="%s" class="%s"><i class="fas fa-%s"></i> %s</a></li>',
+            '<li><a href="%s" class="%s" onclick="closeMobileMenu()"><i class="fas fa-%s"></i> %s</a></li>',
             esc($item['link']),
             $active,
             $item['icon'],

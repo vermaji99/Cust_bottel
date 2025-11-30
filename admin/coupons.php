@@ -109,6 +109,142 @@ $coupons = $couponsStmt->fetchAll(PDO::FETCH_ASSOC);
     <title><?= $editCoupon ? 'Edit' : 'Manage' ?> Coupons | Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/admin-main.css">
+    <script src="assets/js/admin.js" defer></script>
+    <style>
+        /* Coupons Page Specific Responsive Styles */
+        .coupon-form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .coupon-form-grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-bar .search-box {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-bar select {
+            max-width: 150px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .coupon-form-grid-2,
+            .coupon-form-grid-3 {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-bar .search-box,
+            .filter-bar select,
+            .filter-bar .btn {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .card form {
+                padding: clamp(1rem, 3vw, 1.25rem) !important;
+            }
+            
+            .form-group label {
+                font-size: clamp(0.85rem, 2vw, 0.9rem);
+            }
+            
+            .form-control {
+                font-size: clamp(0.9rem, 2vw, 1rem);
+                padding: clamp(10px, 2.5vw, 12px) clamp(12px, 3vw, 15px);
+            }
+            
+            small {
+                font-size: clamp(0.75rem, 1.8vw, 0.85rem) !important;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+            
+            table {
+                min-width: 900px;
+                font-size: clamp(0.8rem, 2vw, 0.9rem);
+            }
+            
+            th, td {
+                padding: clamp(0.75rem, 2vw, 1rem) clamp(0.5rem, 1.5vw, 0.75rem);
+                white-space: nowrap;
+            }
+            
+            .actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .coupon-form-grid-2,
+            .coupon-form-grid-3 {
+                gap: 12px;
+            }
+            
+            .card form {
+                padding: 1rem !important;
+            }
+            
+            table {
+                min-width: 800px;
+                font-size: 0.75rem;
+            }
+            
+            th, td {
+                padding: 0.625rem 0.5rem;
+            }
+            
+            .badge {
+                font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+                padding: clamp(3px, 1vw, 4px) clamp(6px, 1.5vw, 10px);
+            }
+        }
+        
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .coupon-form-grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .coupon-form-grid-3 .form-group:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -147,7 +283,7 @@ $coupons = $couponsStmt->fetchAll(PDO::FETCH_ASSOC);
                         <?= csrf_field(); ?>
                         <input type="hidden" name="coupon_id" value="<?= $editCoupon['id'] ?? 0 ?>">
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="coupon-form-grid-2">
                             <div class="form-group">
                                 <label for="code">Coupon Code *</label>
                                 <input type="text" id="code" name="code" class="form-control" 
@@ -165,7 +301,7 @@ $coupons = $couponsStmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div class="coupon-form-grid-3">
                             <div class="form-group">
                                 <label for="value">Discount Value *</label>
                                 <input type="number" id="value" name="value" class="form-control" 
@@ -188,7 +324,7 @@ $coupons = $couponsStmt->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                         </div>
                         
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="coupon-form-grid-2">
                             <div class="form-group">
                                 <label for="starts_at">Start Date</label>
                                 <input type="datetime-local" id="starts_at" name="starts_at" class="form-control" 
@@ -226,7 +362,7 @@ $coupons = $couponsStmt->fetchAll(PDO::FETCH_ASSOC);
                                 <input type="text" name="search" placeholder="Search by code" 
                                        value="<?= esc($search) ?>" class="form-control">
                             </div>
-                            <select name="status" class="form-control" style="max-width: 150px;">
+                            <select name="status" class="form-control">
                                 <option value="">All Statuses</option>
                                 <option value="active" <?= $statusFilter === 'active' ? 'selected' : '' ?>>Active</option>
                                 <option value="expired" <?= $statusFilter === 'expired' ? 'selected' : '' ?>>Expired</option>

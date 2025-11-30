@@ -385,6 +385,7 @@ $categories = db()->query('SELECT * FROM categories WHERE is_active = 1 ORDER BY
     <title><?= $editProduct ? 'Edit' : 'Manage' ?> Products | Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/admin-main.css">
+    <script src="assets/js/admin.js" defer></script>
 </head>
 <body>
     <div class="admin-container">

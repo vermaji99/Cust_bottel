@@ -415,6 +415,7 @@ $summary = db()->query($summarySql)->fetch(PDO::FETCH_ASSOC);
     <title>Manage Orders | Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/admin-main.css">
+    <script src="assets/js/admin.js" defer></script>
 </head>
 <body>
     <div class="admin-container">

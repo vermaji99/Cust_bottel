@@ -110,6 +110,30 @@ $csrf = csrf_token();
             color: #f0f0f0;
             padding-top: 0;
         }
+        
+        /* Apply home page styles for laptop/desktop only */
+        @media (min-width: 1024px) {
+            html {
+                font-size: 16px;
+            }
+            
+            body {
+                font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                color: #f5f5f5;
+                background: #0B0C10;
+                line-height: 1.6;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                letter-spacing: -0.5px;
+            }
+        }
         .icon {
             font-family: 'Material Symbols Outlined';
             font-weight: normal;
@@ -290,9 +314,48 @@ $csrf = csrf_token();
             margin-top: 50px;
         }
 
+        /* Product name overflow handling */
+        td:nth-child(2) {
+            max-width: 200px;
+        }
+        
+        td:nth-child(2) a {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+        
         @media (max-width: 768px) {
-            table { font-size: 0.9rem; }
+            table { 
+                font-size: 0.9rem; 
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
             img { width: 60px; height: 60px; }
+            
+            /* Product name column - prevent overflow on mobile */
+            td:nth-child(2) {
+                max-width: 120px;
+                min-width: 100px;
+            }
+            
+            td:nth-child(2) a {
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 100%;
+                word-break: break-word;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
             
             .cart-total {
                 max-width: 100%;
@@ -320,12 +383,24 @@ $csrf = csrf_token();
                 width: 100%;
             }
         }
+        
+        @media (max-width: 480px) {
+            td:nth-child(2) {
+                max-width: 100px;
+                min-width: 80px;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
 <?php
 $currentPage = 'cart';
-include __DIR__ . '/includes/navbar.php';
+include __DIR__ . '/../includes/navbar.php';
 ?>
 
 <main>

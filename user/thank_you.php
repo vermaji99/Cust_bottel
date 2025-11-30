@@ -440,7 +440,7 @@ $orderDate = $order['created_at'] ?? date('Y-m-d H:i:s');
 
 <?php
 $currentPage = 'thankyou';
-include __DIR__ . '/includes/navbar.php';
+include __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="container">

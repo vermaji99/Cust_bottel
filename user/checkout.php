@@ -462,6 +462,30 @@ $csrf = csrf_token();
             color: #f0f0f0;
             padding-top: 0;
         }
+        
+        /* Apply home page styles for laptop/desktop only */
+        @media (min-width: 1024px) {
+            html {
+                font-size: 16px;
+            }
+            
+            body {
+                font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                color: #f5f5f5;
+                background: #0B0C10;
+                line-height: 1.6;
+            }
+            
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            }
+            
+            h1, h2 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                letter-spacing: -0.5px;
+            }
+        }
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; display: block; }
 
@@ -853,7 +877,7 @@ $csrf = csrf_token();
 
 <?php
 $currentPage = 'checkout';
-include __DIR__ . '/includes/navbar.php';
+include __DIR__ . '/../includes/navbar.php';
 ?>
 
 <main>

@@ -70,6 +70,7 @@ $unreadCount = db()->query("SELECT COUNT(*) FROM messages")->fetchColumn();
     <title>Contact Messages | Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/admin-main.css">
+    <script src="assets/js/admin.js" defer></script>
     <style>
         .message-card {
             background: #1a1a1a;

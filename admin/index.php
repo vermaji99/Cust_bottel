@@ -56,6 +56,168 @@ $topProducts = db()->query("
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/admin-main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="assets/js/admin.js" defer></script>
+    <style>
+        /* Dashboard Page Specific Responsive Styles */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container-wrapper {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        #revenueChart {
+            max-height: 300px;
+            width: 100% !important;
+        }
+        
+        .top-product-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .top-product-item:last-child {
+            border-bottom: none;
+        }
+        
+        .top-product-rank {
+            color: var(--accent);
+            font-weight: 700;
+            width: 24px;
+            flex-shrink: 0;
+        }
+        
+        .top-product-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .top-product-name {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .top-product-stats {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .chart-container-wrapper {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .chart-container-wrapper {
+                height: 220px;
+            }
+            
+            #revenueChart {
+                max-height: 220px;
+            }
+            
+            .top-product-item {
+                padding: 10px 0;
+                gap: 10px;
+            }
+            
+            .top-product-rank {
+                width: 20px;
+                font-size: 0.9rem;
+            }
+            
+            .img-thumb {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .top-product-name {
+                font-size: clamp(0.85rem, 2vw, 0.95rem);
+            }
+            
+            .top-product-stats {
+                font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+            }
+            
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+            
+            table {
+                min-width: 700px;
+                font-size: clamp(0.8rem, 2vw, 0.9rem);
+            }
+            
+            th, td {
+                padding: clamp(0.75rem, 2vw, 1rem) clamp(0.5rem, 1.5vw, 0.75rem);
+            }
+            
+            .stat-card {
+                padding: clamp(1rem, 3vw, 1.25rem);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .chart-container-wrapper {
+                height: 200px;
+            }
+            
+            #revenueChart {
+                max-height: 200px;
+            }
+            
+            .top-product-item {
+                flex-wrap: wrap;
+                padding: 8px 0;
+            }
+            
+            .top-product-info {
+                width: 100%;
+                margin-top: 5px;
+            }
+            
+            table {
+                min-width: 600px;
+                font-size: 0.75rem;
+            }
+            
+            th, td {
+                padding: 0.625rem 0.5rem;
+            }
+            
+            .badge {
+                font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+                padding: clamp(3px, 1vw, 4px) clamp(6px, 1.5vw, 10px);
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-container">
@@ -108,13 +270,15 @@ $topProducts = db()->query("
                 </div>
 
                 <!-- Charts Row -->
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 30px;">
+                <div class="charts-row">
                     <!-- Revenue Chart -->
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fas fa-chart-line"></i> Revenue (Last 30 Days)</h3>
                         </div>
-                        <canvas id="revenueChart" height="100"></canvas>
+                        <div class="chart-container-wrapper">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
                     </div>
                     
                     <!-- Top Products -->
@@ -124,17 +288,17 @@ $topProducts = db()->query("
                         </div>
                         <div style="padding: 10px 0;">
                             <?php if (empty($topProducts)): ?>
-                                <p style="color: #777; text-align: center; padding: 20px;">No sales data yet</p>
+                                <p style="color: #777; text-align: center; padding: 20px; font-size: clamp(0.85rem, 2vw, 0.9rem);">No sales data yet</p>
                             <?php else: ?>
                                 <?php foreach ($topProducts as $idx => $product): ?>
-                                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border);">
-                                        <span style="color: var(--accent); font-weight: 700; width: 24px;"><?= $idx + 1 ?></span>
+                                    <div class="top-product-item">
+                                        <span class="top-product-rank"><?= $idx + 1 ?></span>
                                         <?php if ($product['image']): ?>
                                             <img src="uploads/<?= esc($product['image']) ?>" alt="" class="img-thumb">
                                         <?php endif; ?>
-                                        <div style="flex: 1;">
-                                            <div style="font-weight: 600;"><?= esc($product['name']) ?></div>
-                                            <small style="color: var(--text-muted);">Sold: <?= (int)$product['total_sold'] ?> | ₹<?= number_format($product['revenue'], 2) ?></small>
+                                        <div class="top-product-info">
+                                            <div class="top-product-name"><?= esc($product['name']) ?></div>
+                                            <small class="top-product-stats">Sold: <?= (int)$product['total_sold'] ?> | ₹<?= number_format($product['revenue'], 2) ?></small>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -226,7 +390,7 @@ $topProducts = db()->query("
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false }
                     },
@@ -237,12 +401,20 @@ $topProducts = db()->query("
                                 callback: function(value) {
                                     return '₹' + value.toLocaleString();
                                 },
-                                color: '#aaa'
+                                color: '#aaa',
+                                font: {
+                                    size: window.innerWidth <= 768 ? 10 : 12
+                                }
                             },
                             grid: { color: '#222' }
                         },
                         x: {
-                            ticks: { color: '#aaa' },
+                            ticks: { 
+                                color: '#aaa',
+                                font: {
+                                    size: window.innerWidth <= 768 ? 10 : 12
+                                }
+                            },
                             grid: { color: '#222' }
                         }
                     }
